@@ -11,17 +11,21 @@
     {% block content %}
     
     <div class="uk-card uk-card-body">
-            <h3 id="text" class="uk-card-title">Introduce the github repo url you want to know info about</h3>
+            <h3 id="text" class="uk-card-title">Introduce your github repo and url to get your commits</h3>
             <form action="/form" method="POST">
                 <fieldset class="uk-fieldset">
                     <div class="uk-margin">
-                        <input class="uk-input" name="texto" id="texto" type="text" placeholder="Input" />
+                        <input class="uk-input" name="username" id="username" type="text" placeholder="username" />
+                        <input class="uk-input" name="repo" id="repo" type="text" placeholder="repo" />
                     </div>
-                    <button type="submit" class="uk-button uk-button-primary">Obtain stats</button>
+                    <button type="submit" class="uk-button uk-button-primary">Obtain commits</button>
                 </fieldset>
             </form>
     
-            <textarea rows="25" class="uk-textarea">{{text}}</textarea>
+            <textarea rows="25" class="uk-textarea">{{commits}}</textarea>
+            {% for commits in commits %}
+                
+            {% endfor %}
         </div>
         {% endblock %}
     {% block scripts %}

@@ -12,10 +12,14 @@ module.exports = (router, swig) => {
     });
 
     router.post('/form', (req, res) => {
-        var requester = require('../ApiRequester')(https);
-        new requester('Arquisoft').performRequest((data) => {
+        var requester = require('../ApiRequest')(https);
+        var user = {
+            username: req.body.username,
+            repo: req.body.repo
+        }
+        new requester(user).performRequest((data) => {
             var respuesta = swig.renderFile("views/index.html", {
-                text: data
+                commits: JSON.stringify(data[0])
             });
             res.send(respuesta);
         })
