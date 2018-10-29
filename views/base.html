@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+{% block head %}
+
+<head>
+    <title>Gitanalysis</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/uikit.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+{% endblock %}
+
+<body>
+    {% block nav %}
+    <div id="nav-lower-960">
+        <nav class="uk-navbar uk-navbar-container uk-margin">
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-toggle" uk-navbar-toggle-icon uk-toggle="target: #offcanvas-nav" href="#"></a>
+            </div>
+        </nav>
+        <div id="offcanvas-nav" uk-offcanvas="overlay: true">
+            <div class="uk-offcanvas-bar">
+
+                <ul class="uk-nav uk-nav-default">
+                    <li class="uk-active"><a href="#">Active</a></li>
+                    <li class="uk-parent">
+                        <a href="#">Parent</a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="#">Sub item</a></li>
+                            <li><a href="#">Sub item</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-nav-header">Header</li>
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: table"></span> Item</a></li>
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: cog"></span> Item</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Item</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- se cargan los navs de manera dinamica y la nav bar es responsive -->
+    <div id="nav-greater-960">
+        <nav class="uk-navbar-container" uk-navbar>
+            <div class="uk-navbar-left">
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="#">Active</a></li>
+                    <li class="uk-active"><a href="#">Item</a></li>
+                </ul>
+            </div>
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <a href="#" uk-icon="icon: user"></a>
+                        <div class="uk-navbar-dropdown">
+                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                <li class="uk-active"><a href="#">Active</a></li>
+                                <li><a href="#">Item</a></li>
+                                <li class="uk-nav-header">Header</li>
+                                <li><a href="#">Item</a></li>
+                                <li><a href="#">Item</a></li>
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="#">Item</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+    {% block scripts %}
+    <script>
+        //el on load hay que hacerlo con la plantilla
+        $(window).on('load', adaptSize);
+        $(document).ready(function () {
+            document.getElementsByTagName("html")[0].style.visibility = "visible";
+        });
+        $(window).resize(adaptSize);
+        function adaptSize() {
+            if ($(window).width() < 960) {
+                $("#nav-greater-960").hide();
+                $("#nav-lower-960").show();
+            }
+            else {
+                $("#nav-lower-960").hide();
+                $("#nav-greater-960").show();
+            }
+        }
+    </script>
+    {% endblock %}
+</body>
+
+
+</html>

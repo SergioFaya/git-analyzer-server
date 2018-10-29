@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+<html>
+{% block head %}
+{% parent %}
+{% endblock %}
+
+<body>
+    {% block nav %}
+    {% parent %}
+    {% endblock %}
+    {% block content %}
+    
+    <div class="uk-card uk-card-body">
+            <h3 id="text" class="uk-card-title">Introduce the github repo url you want to know info about</h3>
+            <form action="/form" method="POST">
+                <fieldset class="uk-fieldset">
+                    <div class="uk-margin">
+                        <input class="uk-input" name="texto" id="texto" type="text" placeholder="Input" />
+                    </div>
+                    <button type="submit" class="uk-button uk-button-primary">Obtain stats</button>
+                </fieldset>
+            </form>
+    
+            <textarea rows="25" class="uk-textarea">{{text}}</textarea>
+        </div>
+        {% endblock %}
+    {% block scripts %}
+    {% parent %}
+    {% endblock %}
+</body>
+
+</html>
