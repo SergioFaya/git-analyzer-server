@@ -1,10 +1,14 @@
-module.exports = (router, swig) => {
-    var https = require('https');
+var mongoclient = require('mongodb').MongoClient;
+const CrudManager = require('../CrudManager')(mongoclient);
+var https = require('https');
+const ApiRequester = require('../ApiRequest')(https);
+
+module.exports = (router, swig, config) => {
+
     router.get('/', (req, res) => {
-        var respuesta = swig.renderFile("views/index.html", {
+        res.send(swig.renderFile("views/index.html", {
             text: ""
-        });
-        res.send(respuesta);
+        }));
     });
 
     router.get('/form', (req, res) => {
@@ -12,18 +16,39 @@ module.exports = (router, swig) => {
     });
 
     router.post('/form', (req, res) => {
-        var requester = require('../ApiRequest')(https);
         var user = {
             username: req.body.username,
             repo: req.body.repo
         }
-        new requester(user).performRequest((data) => {
-            var respuesta = swig.renderFile("views/index.html", {
+        new ApiRequester(user).performRequest((data) => {
+            res.send(swig.renderFile("views/index.html", {
                 commits: data,
-            });
-            res.send(respuesta);
+            }));
         })
     });
 
+    router.get('/login', (req, res) => {
+        //res.send(swig.renderFile(''));
+        
+    });
+
+    router.post('/login', (req, res) => {
+
+    });
+
+    router.get('/commits',(req,res) => {
+        var conf = {
+            host: config.db.host,
+            query: config.db.queries.allCommits,
+            col: config.db.collections.commits
+        };
+        new CrudManager().getAll(conf, (result) => {
+            if (result == null) {
+                res.send('nada');
+            } else {
+                res.send(result)
+            }
+        });
+    });
     return router;
 }
