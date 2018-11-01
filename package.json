@@ -19,7 +19,9 @@
   "dependencies": {
     "curl-request": "^1.1.1",
     "eslint": "^5.8.0",
+    "express": "^4.16.4",
     "node-webhooks": "^1.4.0",
+    "package.json": "^2.0.1",
     "swig": "^1.4.2"
   }
 }

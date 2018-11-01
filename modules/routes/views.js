@@ -19,7 +19,7 @@ module.exports = (router, swig) => {
         }
         new requester(user).performRequest((data) => {
             var respuesta = swig.renderFile("views/index.html", {
-                commits: JSON.stringify(data[0])
+                commits: data,
             });
             res.send(respuesta);
         })
