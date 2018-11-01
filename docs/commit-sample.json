@@ -1,0 +1,79 @@
+{
+    "sha": "d297fdb9b715f292bda44d3a119426527f00877b",
+    "node_id": "MDY6Q29tbWl0MTE5NTI2MDQxOmQyOTdmZGI5YjcxNWYyOTJiZGE0NGQzYTExOTQyNjUyN2YwMDg3N2I=",
+    "commit": {
+        "author": {
+            "name": "Sergio Faya Fern�ndez",
+            "email": "estisergio@gmail.com",
+            "date": "2018-05-10T13:05:23Z"
+        },
+        "committer": {
+            "name": "GitHub",
+            "email": "noreply@github.com",
+            "date": "2018-05-10T13:05:23Z"
+        },
+        "message": "Update README.md",
+        "tree": {
+            "sha": "5114e7260cd1b1a167eb339921a7a9f64c11262e",
+            "url": "https://api.github.com/repos/Arquisoft/Loader_i2b/git/trees/5114e7260cd1b1a167eb339921a7a9f64c11262e"
+        },
+        "url": "https://api.github.com/repos/Arquisoft/Loader_i2b/git/commits/d297fdb9b715f292bda44d3a119426527f00877b",
+        "comment_count": 0,
+        "verification": {
+            "verified": true,
+            "reason": "valid",
+            "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJa9EOTCRBK7hj4Ov3rIwAAdHIIACHfh6c/aY7YsLkaDJ8u+5Ex\nwj6kbzcZCjhydsg5LUXXUQeDTWAu1d+L2jSs18CPlpXLkcUouDKRVvm6OgdCvxX1\nvJtPnDdIbiPPsolWA2KEj8ozET4MVgps8f9/+g5YbxpO777qn4uUPRTZCTdK9NdB\nzkSTk5v0GRfP0sl+f7GT62vIFfm0sx5tFW6bhtDiybaXw71IKzIzcQwKhp+GtCbv\ntRRfmn7DOEYAIr+F7hg55ZYGOlIyROzT4bbwEnHiJ6Y0WB6LhFCoRdshE+6gbLu8\nx4j16BdgMitzUCWcnOyb48ps6yRS5Q7Qqkhya1ZBKlmgZkPfhrVPcUWFNeEuRNg=\n=e0Un\n-----END PGP SIGNATURE-----\n",
+            "payload": "tree 5114e7260cd1b1a167eb339921a7a9f64c11262e\nparent 96eb8de59ad2b77534dd9301c578ef5995a6797c\nauthor Sergio Faya Fern�ndez <estisergio@gmail.com> 1525957523 +0200\ncommitter GitHub <noreply@github.com> 1525957523 +0200\n\nUpdate README.md"
+        }
+    },
+    "url": "https://api.github.com/repos/Arquisoft/Loader_i2b/commits/d297fdb9b715f292bda44d3a119426527f00877b",
+    "html_url": "https://github.com/Arquisoft/Loader_i2b/commit/d297fdb9b715f292bda44d3a119426527f00877b",
+    "comments_url": "https://api.github.com/repos/Arquisoft/Loader_i2b/commits/d297fdb9b715f292bda44d3a119426527f00877b/comments",
+    "author": {
+        "login": "SergioFaya",
+        "id": 15983833,
+        "node_id": "MDQ6VXNlcjE1OTgzODMz",
+        "avatar_url": "https://avatars1.githubusercontent.com/u/15983833?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/SergioFaya",
+        "html_url": "https://github.com/SergioFaya",
+        "followers_url": "https://api.github.com/users/SergioFaya/followers",
+        "following_url": "https://api.github.com/users/SergioFaya/following{/other_user}",
+        "gists_url": "https://api.github.com/users/SergioFaya/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/SergioFaya/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/SergioFaya/subscriptions",
+        "organizations_url": "https://api.github.com/users/SergioFaya/orgs",
+        "repos_url": "https://api.github.com/users/SergioFaya/repos",
+        "events_url": "https://api.github.com/users/SergioFaya/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/SergioFaya/received_events",
+        "type": "User",
+        "site_admin": false
+    },
+    "committer": {
+        "login": "web-flow",
+        "id": 19864447,
+        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+        "avatar_url": "https://avatars3.githubusercontent.com/u/19864447?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/web-flow",
+        "html_url": "https://github.com/web-flow",
+        "followers_url": "https://api.github.com/users/web-flow/followers",
+        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+        "organizations_url": "https://api.github.com/users/web-flow/orgs",
+        "repos_url": "https://api.github.com/users/web-flow/repos",
+        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/web-flow/received_events",
+        "type": "User",
+        "site_admin": false
+    },
+    "parents": [
+        {
+            "sha": "96eb8de59ad2b77534dd9301c578ef5995a6797c",
+            "url": "https://api.github.com/repos/Arquisoft/Loader_i2b/commits/96eb8de59ad2b77534dd9301c578ef5995a6797c",
+            "html_url": "https://github.com/Arquisoft/Loader_i2b/commit/96eb8de59ad2b77534dd9301c578ef5995a6797c"
+        }
+    ]
+}
