@@ -36,9 +36,11 @@
                     </ul>
                     </li>
                     <li class="uk-nav-header">User</li>
-                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: cog"></span>Config</a></li>
+                    <li><a href="https://github.com/settings/connections/applications/{{client_id}}"><span class="uk-margin-small-right"
+                                uk-icon="icon: cog"></span>Config</a></li>
                     <li class="uk-nav-divider"></li>
-                    <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Sign in with
+                    <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span class="uk-margin-small-right"
+                                uk-icon="icon: user"></span> Sign in with
                             github</a></li>
                 </ul>
 
@@ -62,10 +64,12 @@
                         <div class="uk-navbar-dropdown">
                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                 <li class="uk-nav-header">User</li>
-                                <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span class="uk-margin-small-right" uk-icon="icon: user"></span>Sign in
+                                <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span
+                                            class="uk-margin-small-right" uk-icon="icon: user"></span>Sign in
                                         with github</a></li>
                                 <li class="uk-nav-divider"></li>
-                                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: cog"></span>Config</a></li>
+                                <li><a href="https://github.com/settings/connections/applications/{{client_id}}"><span
+                                        class="uk-margin-small-right" uk-icon="icon: cog"></span>Config</a></li>
                             </ul>
                         </div>
                     </li>
@@ -97,6 +101,8 @@
     </script>
     {% endblock %}
 </body>
+
+
 
 
 </html>
