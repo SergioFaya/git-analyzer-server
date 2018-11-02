@@ -4,7 +4,7 @@
 {% block head %}
 
 <head>
-    <title>Gitanalysis</title>
+    <title>GitAnalysis</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/css/uikit.min.css" />
@@ -28,19 +28,18 @@
             <div class="uk-offcanvas-bar">
 
                 <ul class="uk-nav uk-nav-default">
-                    <li class="uk-active"><a href="#">Active</a></li>
                     <li class="uk-parent">
-                        <a href="#">Parent</a>
-                        <ul class="uk-nav-sub">
-                            <li><a href="#">Sub item</a></li>
-                            <li><a href="#">Sub item</a></li>
-                        </ul>
+                    <li class="uk-nav-header">Links</li>
+                    <ul class="uk-nav-sub">
+                        <li class="uk-active"><a href="/commits">See commits</a></li>
+                        <li class="uk-active"><a href="/">Home</a></li>
+                    </ul>
                     </li>
-                    <li class="uk-nav-header">Header</li>
-                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: table"></span> Item</a></li>
-                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: cog"></span> Item</a></li>
+                    <li class="uk-nav-header">User</li>
+                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: cog"></span>Config</a></li>
                     <li class="uk-nav-divider"></li>
-                    <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Item</a></li>
+                    <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Sign in with
+                            github</a></li>
                 </ul>
 
             </div>
@@ -52,8 +51,8 @@
         <nav class="uk-navbar-container" uk-navbar>
             <div class="uk-navbar-left">
                 <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="#">Active</a></li>
-                    <li class="uk-active"><a href="#">Item</a></li>
+                    <li class="uk-active"><a href="/commits">See commmits on db</a></li>
+                    <li class="uk-active"><a href="/">Home</a></li>
                 </ul>
             </div>
             <div class="uk-navbar-right">
@@ -62,13 +61,11 @@
                         <a href="#" uk-icon="icon: user"></a>
                         <div class="uk-navbar-dropdown">
                             <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li class="uk-active"><a href="#">Active</a></li>
-                                <li><a href="#">Item</a></li>
-                                <li class="uk-nav-header">Header</li>
-                                <li><a href="#">Item</a></li>
-                                <li><a href="#">Item</a></li>
+                                <li class="uk-nav-header">User</li>
+                                <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span class="uk-margin-small-right" uk-icon="icon: user"></span>Sign in
+                                        with github</a></li>
                                 <li class="uk-nav-divider"></li>
-                                <li><a href="#">Item</a></li>
+                                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: cog"></span>Config</a></li>
                             </ul>
                         </div>
                     </li>

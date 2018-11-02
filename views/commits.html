@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+<html>
+{% block head %}
+{% parent %}
+{% endblock %}
+
+<body>
+    {% block nav %}
+    {% parent %}
+    {% endblock %}
+    {% block content %}
+        <p>{{commits}}</p>
+    {% endblock %}
+    {% block scripts %}
+    {% parent %}
+    {% endblock %}
+</body>
+
+</html>

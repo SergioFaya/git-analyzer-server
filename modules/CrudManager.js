@@ -1,6 +1,11 @@
 //ES6 class
 module.exports = (mongoclient) => class CrudManager {
 
+    /**
+     * 
+     * @param {JSON} config include host, collection(col) and query to perform the request
+     * @param {Function} callback returns null if err, results otherwise
+     */
     getAll(config, callback) {
         mongoclient.connect(config.host, (err, db) => {
             if (err) {
@@ -16,6 +21,29 @@ module.exports = (mongoclient) => class CrudManager {
                     }
                 });
                 db.close();
+            }
+        });
+    }
+
+    /**
+     * 
+     * @param {JSON} config include host, collection(col) and data to be inserted 
+     * @param {Function} callback returns the status of the insertion, err or the record info
+     */
+    insert(config, callback){
+        mongoclient.connect(config.host, (err,db) => {
+            if(err){
+                console.log(err);
+                callback(null);
+            }else{
+                db.collection(config.col).insertMany(config.data,(err, records)=>{
+                    if(err){
+                        console.log(err);
+                        callback(null);
+                    }else{
+                        callback(records);
+                    }
+                });
             }
         });
     }

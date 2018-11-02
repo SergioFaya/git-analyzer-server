@@ -29,6 +29,11 @@ const dev = {
         queries: {
             allCommits: {}
         }
+    },
+    oauth: {
+        client_id: 'c4c42af4e127583d6c40',
+        client_secret: 'd6aa5e40a8d48ffe98c831f65a244879982fe237',
+        state: 'abcdefgh'
     }
 };
 
