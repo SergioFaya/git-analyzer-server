@@ -36,6 +36,29 @@ module.exports = (mongoclient) => class CrudManager {
                 console.log(err);
                 callback(null);
             }else{
+                db.collection(config.col).insert(config.data,(err, records)=>{
+                    if(err){
+                        console.log(err);
+                        callback(null);
+                    }else{
+                        callback(records);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 
+     * @param {JSON} config include host, collection(col) and data to be inserted 
+     * @param {Function} callback returns the status of the insertion, err or the record info
+     */
+    insertMany(config, callback){
+        mongoclient.connect(config.host, (err,db) => {
+            if(err){
+                console.log(err);
+                callback(null);
+            }else{
                 db.collection(config.col).insertMany(config.data,(err, records)=>{
                     if(err){
                         console.log(err);

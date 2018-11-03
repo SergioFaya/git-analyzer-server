@@ -36,12 +36,16 @@
                     </ul>
                     </li>
                     <li class="uk-nav-header">User</li>
+                    {% if user != null %}
                     <li><a href="https://github.com/settings/connections/applications/{{client_id}}"><span class="uk-margin-small-right"
                                 uk-icon="icon: cog"></span>Config</a></li>
+                    {% endif %}
                     <li class="uk-nav-divider"></li>
+                    {% if user == null %}
                     <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span class="uk-margin-small-right"
                                 uk-icon="icon: user"></span> Sign in with
                             github</a></li>
+                    {% endif %}
                 </ul>
 
             </div>
@@ -60,16 +64,24 @@
             <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav">
                     <li>
+                        {% if user.avatar_url %}
+                        <img src= '{{user.avatar_url}}'' alt="tu fotito" width="75px" height="75px">
+                        {% else %}
                         <a href="#" uk-icon="icon: user"></a>
+                        {% endif %}
                         <div class="uk-navbar-dropdown">
                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                 <li class="uk-nav-header">User</li>
+                                {% if user == null %}
                                 <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span
                                             class="uk-margin-small-right" uk-icon="icon: user"></span>Sign in
                                         with github</a></li>
+                                {% endif %}
                                 <li class="uk-nav-divider"></li>
+                                {% if user != null %}
                                 <li><a href="https://github.com/settings/connections/applications/{{client_id}}"><span
-                                        class="uk-margin-small-right" uk-icon="icon: cog"></span>Config</a></li>
+                                            class="uk-margin-small-right" uk-icon="icon: cog"></span>Config</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </li>
@@ -79,6 +91,12 @@
     </div>
     {% endblock %}
     {% block content %}
+    {% if err %}
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p> {{err}}</p>
+    </div>
+    {% endif %}
     {% endblock %}
     {% block scripts %}
     <script>

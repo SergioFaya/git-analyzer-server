@@ -17,14 +17,16 @@ const env = process.env.NODE_ENV;
 
 const dev = {
     app:{
-        port: 3000
+        port: 3000,
+        source: '0.0.0.0'
     },
     db: {
         host: 'mongodb://admin:admin1@ds247223.mlab.com:47223/git-analyzer',
         port: 27017,
         name: 'db',
         collections:{
-            commits: 'commits'
+            commits: 'commits',
+            users: 'users'
         },
         queries: {
             allCommits: {}
@@ -37,6 +39,7 @@ const dev = {
     }
 };
 
+//Create when specific run is stablished
 const test = {
     app:{
         port: 3000

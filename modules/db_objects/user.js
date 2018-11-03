@@ -1,7 +1,7 @@
 var user = {
-    client_id: null,
+    access_token: null,
     username: null,
-    pic_url: null
+    avatar_url: null
 }
 
 module.exports = user;
