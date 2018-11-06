@@ -30,7 +30,6 @@ module.exports = (logger) => {
                             col: config.db.collections.users,
                             data: user
                         }
-                        console.log('antes de crud manager');
                         req.session.user = user;
                         res.redirect('/');
                     }).catch(() => {
