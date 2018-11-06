@@ -39,11 +39,12 @@
                     {% if user != null %}
                     <li><a href="https://github.com/settings/connections/applications/{{client_id}}"><span class="uk-margin-small-right"
                                 uk-icon="icon: cog"></span>Config</a></li>
-                    {% endif %}
                     <li class="uk-nav-divider"></li>
+                    <li><a href="/logout"><span class="uk-margin-small-right" uk-icon="icon: close"></span>Log Out</a></li>
+                    {% endif %}
                     {% if user == null %}
-                    <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span class="uk-margin-small-right"
-                                uk-icon="icon: user"></span> Sign in with
+                    <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}&scope={{scope}}"><span
+                                class="uk-margin-small-right" uk-icon="icon: user"></span> Sign in with
                             github</a></li>
                     {% endif %}
                 </ul>
@@ -65,7 +66,7 @@
                 <ul class="uk-navbar-nav">
                     <li>
                         {% if user.avatar_url %}
-                        <img src= '{{user.avatar_url}}'' alt="tu fotito" width="75px" height="75px">
+                        <img  class = "uk-icon-button uk-margin-small-right" src='{{user.avatar_url}}'' alt="tu fotito" width="100px" height="100px" >
                         {% else %}
                         <a href="#" uk-icon="icon: user"></a>
                         {% endif %}
@@ -73,14 +74,16 @@
                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                 <li class="uk-nav-header">User</li>
                                 {% if user == null %}
-                                <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}"><span
+                                <li><a href="https://github.com/login/oauth/authorize?client_id={{client_id}}&scope={{scope}}"><span
                                             class="uk-margin-small-right" uk-icon="icon: user"></span>Sign in
                                         with github</a></li>
                                 {% endif %}
-                                <li class="uk-nav-divider"></li>
+                               
                                 {% if user != null %}
                                 <li><a href="https://github.com/settings/connections/applications/{{client_id}}"><span
                                             class="uk-margin-small-right" uk-icon="icon: cog"></span>Config</a></li>
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="/logout"><span class="uk-margin-small-right" uk-icon="icon: close"></span>Log Out</a></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -101,26 +104,14 @@
     {% block scripts %}
     <script>
         //el on load hay que hacerlo con la plantilla
-        $(window).on('load', adaptSize);
-        $(document).ready(function () {
-            document.getElementsByTagName("html")[0].style.visibility = "visible";
-        });
-        $(window).resize(adaptSize);
-        function adaptSize() {
+        $(window).on('load', adaptSize); $(document).ready(function () {
+                            document.getElementsByTagName("html")[0].style.visibility = "visible" ; });
+        $(window).resize(adaptSize); function adaptSize() {
             if ($(window).width() < 960) {
-                $("#nav-greater-960").hide();
-                $("#nav-lower-960").show();
+                $("#nav-greater-960").hide(); $("#nav-lower-960").show();
+            } else {
+                $("#nav-lower-960").hide(); $("#nav-greater-960").show();
             }
-            else {
-                $("#nav-lower-960").hide();
-                $("#nav-greater-960").show();
-            }
-        }
-    </script>
+        } </script> 
     {% endblock %}
-</body>
-
-
-
-
-</html>
+</body></html>

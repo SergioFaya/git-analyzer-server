@@ -13,6 +13,8 @@ stdin.addListener("data", function(d) {
         d.toString().trim() + "]");
   });
 */
+
+// 0.0.0.0 allows access from any ip address not only form 127.0.0.1 aka localhost
 const env = process.env.NODE_ENV;
 
 const dev = {
@@ -35,7 +37,8 @@ const dev = {
     oauth: {
         client_id: 'c4c42af4e127583d6c40',
         client_secret: 'd6aa5e40a8d48ffe98c831f65a244879982fe237',
-        state: 'abcdefgh'
+        state: 'abcdefgh',
+        scope: 'repo'
     }
 };
 

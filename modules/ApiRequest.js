@@ -3,7 +3,13 @@ module.exports = (https) => class ApiRequest {
     constructor(user, method = 'GET') {
         const host = 'api.github.com'
         var path = '/repos/' + user.username + '/' + user.repo + '/commits';
-        var headers = { 'user-agent': 'SergioFaya' };
+        var headers;
+             if(user.access_token){
+                headers = { 'user-agent': 'SergioFaya',
+                'Authorization': 'token '+user.access_token };
+             }else{
+                headers = { 'user-agent': 'SergioFaya'};
+             }
         var content = 'json'
 
         if (!arguments.length) {

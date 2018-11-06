@@ -4,9 +4,6 @@ const express = require('express');
 // TODO: Revisar la utilidad de los node webhooks ya que de momento postean guay
 var wh = require('node-webhooks');
 var app = express();
-// TODO: cambiar a ejs posiblemente
-var swig = require('swig');
-
 var expressSession = require('express-session');
 app.use(expressSession({
     secret: 'abcdefg',
@@ -29,14 +26,19 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var route_hooks = require('./modules/routers/webhooks')(logger);
-var route_general = require('./modules/routers/views')(swig, logger);
+var router_hooks = require('./modules/routes/webhooks')(logger);
+var router_user = require('./modules/routes/router-user')(logger);
+var router_general = require('./modules/routes/router-general')(logger);
+var router_not_found = require('./modules/routes/router-notfound')(logger);
+var router_session = require('./modules/routes/router-session')(logger);
 
 app.use(express.static('public'));
-app.use('/',route_general);
-app.use('/',route_hooks);
+app.use('/user', router_session);
+app.use('/', router_general);
+app.use('/', router_user);
+app.use('/hooks', router_hooks);
+app.use('/', router_not_found);
 
-// 0.0.0.0 allows access from any ip address not only form 127.0.0.1 aka localhost
 app.listen(config.app.port, config.app.source, () => {
     console.log("listening on port", config.app.port)
 });
