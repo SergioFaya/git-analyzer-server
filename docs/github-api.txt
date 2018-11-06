@@ -1,0 +1,8 @@
+coger datos de un repo
+https://api.github.com/repos/Arquisoft/Loader_i2b
+commits de un repo
+https://api.github.com/repos/Arquisoft/Loader_i2b/commits 
+commit de un repo
+https://api.github.com/repos/Arquisoft/Loader_i2b/commits/d297fdb9b715f292bda44d3a119426527f00877b
+repos de un usuario
+https://api.github.com/users/Arquisoft/repos
