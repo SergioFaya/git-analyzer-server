@@ -4,4 +4,4 @@ node_js:
 sudo: enabled
 git:
   quiet: true
-script: npm lint
+script: npm run lint
