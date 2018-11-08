@@ -1,4 +1,5 @@
 {
-    "esnext": "true",
-    "noyield": "true"
+    "esversion": 6,
+    "noyield": true,
+    "nonew": true
 }
