@@ -30,10 +30,10 @@ module.exports = (logger) => {
             username: req.body.username,
             repo: req.body.repo,
             access_token: token
-        }
+        };
         new ApiRequester(user).performRequest((data) => {
             if (data.message) {
-                data.length = "ERROR: NO ACCESS TOKEN"
+                data.length = "ERROR: NO ACCESS TOKEN";
                 res.send(swig.renderFile("views/index.html", {
                     commits: data,
                     client_id: config.oauth.client_id,
@@ -72,4 +72,4 @@ module.exports = (logger) => {
     });
 
     return router;
-}
+};

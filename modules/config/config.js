@@ -1,32 +1,22 @@
-// We check in which environment state are we running
-// export NODE_ENV=dev
-// TODO: cambiar este valor dinamicamente a la hora de iniciar la app
-/*
-LEER POR CONSOLA SI ES PARA TEST O PARA RELEASE
-var stdin = process.openStdin();
 
-stdin.addListener("data", function(d) {
-    // note:  d is an object, and when converted to a string it will
-    // end with a linefeed.  so we (rather crudely) account for that  
-    // with toString() and then trim() 
-    console.log("you entered: [" + 
-        d.toString().trim() + "]");
-  });
-*/
-
-// 0.0.0.0 allows access from any ip address not only form 127.0.0.1 aka localhost
-const env = process.env.NODE_ENV;
-
+// if an argument is specified 
+const env = process.argv[2] || 'dev';
+if (env != 'dev' && env != 'test' && env != 'deploy') {
+    console.error('error', 'environment config not valid');
+    process.exit();
+}
 const dev = {
-    app:{
-        port: 3000,
+    app: {
+        //if a port is provided runs it else 3000
+        port: process.argv[3] || 3000,
+        // 0.0.0.0 allows access from any ip address not only from 127.0.0.1 aka localhost
         source: '0.0.0.0'
     },
     db: {
         host: 'mongodb://admin:admin1@ds247223.mlab.com:47223/git-analyzer',
         port: 27017,
         name: 'db',
-        collections:{
+        collections: {
             commits: 'commits',
             users: 'users'
         },
@@ -44,21 +34,40 @@ const dev = {
 
 //Create when specific run is stablished
 const test = {
-    app:{
-        port: 3000
+    app: {
+        //if a port is provided runs it else 3000
+        port: process.argv[3] || 3000,
+        source: '0.0.0.0'
     },
     db: {
         host: 'mongodb://admin:admin1@ds247223.mlab.com:47223/git-analyzer',
         port: 27017,
-        name: 'test'
+        name: 'db',
+        collections: {
+            commits: 'commits',
+            users: 'users'
+        },
+        queries: {
+            allCommits: {}
+        }
+    },
+    oauth: {
+        client_id: 'c4c42af4e127583d6c40',
+        client_secret: 'd6aa5e40a8d48ffe98c831f65a244879982fe237',
+        state: 'abcdefgh',
+        scope: 'repo'
     }
 };
 
-const config = {
-    dev,
-    test
+const deploy = {
+
 };
 
-//Get the configuration if its being tested or released
-//module.exports = config[env];
-module.exports = config['dev'];
+const config = {
+    dev: dev,
+    test:test,
+    deploy: deploy
+};
+
+//Get the configuration if its being under dev, tested or released
+module.exports = config[env];

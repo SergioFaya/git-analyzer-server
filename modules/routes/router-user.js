@@ -29,17 +29,17 @@ module.exports = (logger) => {
                             host: config.db.host,
                             col: config.db.collections.users,
                             data: user
-                        }
+                        };
                         req.session.user = user;
                         res.redirect('/');
                     }).catch(() => {
                         logger.log({ level: 'error', message: 'error when accessing github api for getting user data with the access token' });
-                        res.redirect('/?err=ERROR using the acces token')
+                        res.redirect('/?err=ERROR using the acces token');
                     }
                     );
             }).catch(() => {
                 logger.log({ level: 'error', message: 'error when sending to the github api the code for access token' });
-                res.redirect('/?err=ERROR getting the access token')
+                res.redirect('/?err=ERROR getting the access token');
             });
     });
 
@@ -49,4 +49,4 @@ module.exports = (logger) => {
     });
 
     return router;
-}
+};

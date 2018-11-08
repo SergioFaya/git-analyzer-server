@@ -40,5 +40,5 @@ app.use('/hooks', router_hooks);
 app.use('/', router_not_found);
 
 app.listen(config.app.port, config.app.source, () => {
-    console.log("listening on port", config.app.port)
+    console.log("listening on port", config.app.port);
 });

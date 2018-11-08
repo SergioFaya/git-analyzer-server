@@ -1,7 +1,7 @@
 //ES6 class
 module.exports = (https) => class ApiRequest {
     constructor(user, method = 'GET') {
-        const host = 'api.github.com'
+        const host = 'api.github.com';
         var path = '/repos/' + user.username + '/' + user.repo + '/commits';
         var headers;
              if(user.access_token){
@@ -10,11 +10,11 @@ module.exports = (https) => class ApiRequest {
              }else{
                 headers = { 'user-agent': 'SergioFaya'};
              }
-        var content = 'json'
+        var content = 'json';
 
         if (!arguments.length) {
             //empty constructor
-            console.log("Regular api call")
+            console.log("Regular api call");
             path = '';
         }
         this.options = {
@@ -23,7 +23,7 @@ module.exports = (https) => class ApiRequest {
             'method': method,
             'headers': headers,
             'content-type': 'json'
-        }
+        };
     }
 
     //Setters and getters are authomatic ()
@@ -44,7 +44,7 @@ module.exports = (https) => class ApiRequest {
             });
             // The whole response has been received. Print out the result.
             resp.on('end', () => {
-                data = eval('(' + data + ')')
+                data =  JSON.parse(data);
                 callback(data);
             });
         }).on("error", (err) => {
@@ -53,4 +53,4 @@ module.exports = (https) => class ApiRequest {
         });
         request.end();
     }
-}
+};

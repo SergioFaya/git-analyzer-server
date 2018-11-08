@@ -13,4 +13,4 @@ module.exports = (logger) => {
   
   
   return router;
-}
+};

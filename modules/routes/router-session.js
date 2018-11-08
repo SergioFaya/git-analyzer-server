@@ -10,4 +10,4 @@ module.exports = function (logger) {
         } 
     });
     return router;
-}
+};

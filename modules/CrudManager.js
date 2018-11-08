@@ -70,4 +70,4 @@ module.exports = (mongoclient) => class CrudManager {
             }
         });
     }
-}
+};
