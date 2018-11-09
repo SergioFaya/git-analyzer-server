@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/SergioFaya/git-analyzer-app.svg?token=LDdyavasGPqmNSP4eDss&branch=master)](https://travis-ci.com/SergioFaya/git-analyzer-app)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/93564477bba747c697fe60ebc8887e34)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SergioFaya/git-analyzer-app&amp;utm_campaign=Badge_Grade)
 
 # git-analyzer-app
 
