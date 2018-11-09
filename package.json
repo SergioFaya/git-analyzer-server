@@ -9,7 +9,9 @@
     "posttest": "echo 'put here your code to run AFTER the tests'",
     "start": "node index.js",
     "start:dev": "node index.js dev 3000",
-    "lint": "jshint index.js modules test"
+    "lint":"eslint modules index.js",
+    "lint:2": "jshint index.js modules test",
+    "lint:init": "eslint --init"
   },
   "repository": {
     "type": "git",
@@ -23,7 +25,6 @@
   "homepage": "https://github.com/SergioFaya/TFG#readme",
   "dependencies": {
     "curl-request": "^1.1.1",
-    "eslint": "^5.8.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "fs": "0.0.1-security",
@@ -35,8 +36,10 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
+    "eslint": "^5.8.0",
     "jshint": "^2.9.6",
     "mocha": "^5.2.0",
+    "prettier": "1.15.1",
     "should": "^13.2.3"
   }
 }

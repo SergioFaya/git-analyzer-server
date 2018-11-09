@@ -4,13 +4,14 @@ module.exports = (https) => class ApiRequest {
         const host = 'api.github.com';
         var path = '/repos/' + user.username + '/' + user.repo + '/commits';
         var headers;
-             if(user.access_token){
-                headers = { 'user-agent': 'SergioFaya',
-                'Authorization': 'token '+user.access_token };
-             }else{
-                headers = { 'user-agent': 'SergioFaya'};
-             }
-        var content = 'json';
+        if (user.access_token) {
+            headers = {
+                'user-agent': 'SergioFaya',
+                'Authorization': 'token ' + user.access_token
+            };
+        } else {
+            headers = { 'user-agent': 'SergioFaya' };
+        }
 
         if (!arguments.length) {
             //empty constructor
@@ -44,7 +45,7 @@ module.exports = (https) => class ApiRequest {
             });
             // The whole response has been received. Print out the result.
             resp.on('end', () => {
-                data =  JSON.parse(data);
+                data = JSON.parse(data);
                 callback(data);
             });
         }).on("error", (err) => {

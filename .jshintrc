@@ -1,5 +1,10 @@
 {
     "esversion": 6,
     "noyield": true,
-    "nonew": true
+    "nonew": true,
+    "bitwise": true,
+    "browser": true,
+    "unused": true,
+    "undef": true,
+    "node": true
 }

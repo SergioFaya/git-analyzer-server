@@ -62,6 +62,8 @@ module.exports = (logger) => {
         new CrudManager().getAll(conf, (result) => {
             if (result == null) {
                 res.send('nada');
+                logger.log({ "level": "error",
+                     "messange": "error when accessing github api for getting user data with the access token" });
             } else {
                 res.send(swig.renderFile('views/commits.html', {
                     commits: JSON.stringify(result),
