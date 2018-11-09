@@ -9,8 +9,7 @@
     "posttest": "echo 'put here your code to run AFTER the tests'",
     "start": "node index.js",
     "start:dev": "node index.js dev 3000",
-    "lint":"eslint modules index.js",
-    "lint:2": "jshint index.js modules test",
+    "lint": "eslint modules index.js test",
     "lint:init": "eslint --init"
   },
   "repository": {
@@ -37,7 +36,6 @@
   },
   "devDependencies": {
     "eslint": "^5.8.0",
-    "jshint": "^2.9.6",
     "mocha": "^5.2.0",
     "prettier": "1.15.1",
     "should": "^13.2.3"

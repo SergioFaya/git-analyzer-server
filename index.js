@@ -6,20 +6,20 @@ var wh = require('node-webhooks');
 var app = express();
 var expressSession = require('express-session');
 app.use(expressSession({
-    secret: 'abcdefg',
-    resave: true,
-    saveUninitialized: true
+	secret: 'abcdefg',
+	resave: true,
+	saveUninitialized: true
 }));
 
 //Winston para los logs
 var winston = require('winston');
 var logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
-    transports: [
-        new winston.transports.File({ filename: 'error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'logs.log' })
-    ]
+	level: 'info',
+	format: winston.format.json(),
+	transports: [
+		new winston.transports.File({ filename: 'error.log', level: 'error' }),
+		new winston.transports.File({ filename: 'logs.log' })
+	]
 });
 
 var bodyParser = require('body-parser');
@@ -40,5 +40,5 @@ app.use('/hooks', router_hooks);
 app.use('/', router_not_found);
 
 app.listen(config.app.port, config.app.source, () => {
-    console.log("listening on port", config.app.port);
+	console.log('listening on port', config.app.port);
 });
