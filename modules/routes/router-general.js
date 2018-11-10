@@ -19,19 +19,17 @@ module.exports = (logger) => {
 	});
 
 	router.post('/form', (req, res) => {
-		var token;
 		if (req.session.user) {
-			token = req.session.user.access_token;
+			var token = req.session.user.access_token;
+			octokit.authenticate({
+				type: 'oauth',
+				token: token
+			});
 		}
-		var user = {
-			username: req.body.username,
-			repo: req.body.repo,
-			access_token: token
-		};
 		octokit.repos
 			.getCommits({
-				owner: user.username,
-				repo: user.repo,
+				owner: req.body.username,
+				repo: req.body.repo,
 			})
 			.then(result => {
 				if (!result) {
