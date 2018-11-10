@@ -17,8 +17,9 @@ var logger = winston.createLogger({
 	level: 'info',
 	format: winston.format.json(),
 	transports: [
+		new winston.transports.File({ filename: 'hooks.log', level: 'webhook' }),
 		new winston.transports.File({ filename: 'error.log', level: 'error' }),
-		new winston.transports.File({ filename: 'logs.log' })
+		new winston.transports.File({ filename: 'logs.log', level: 'info' })
 	]
 });
 
@@ -36,8 +37,8 @@ app.use(express.static('public'));
 app.use('/user', router_session);
 app.use('/', router_general);
 app.use('/', router_user);
-app.use('/hooks', router_hooks);
-app.use('/', router_not_found);
+app.use('/', router_hooks);
+//app.use('/', router_not_found);
 
 app.listen(config.app.port, config.app.source, () => {
 	console.log('listening on port', config.app.port);

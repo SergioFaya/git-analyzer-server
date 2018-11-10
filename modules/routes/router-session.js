@@ -3,7 +3,8 @@ module.exports = (logger) => {
 	router.use(function (req, res, next) {
 		if (req.session.usuario) {
 			if (req.session.usuario != null) {
-				next();
+				console.log('Time: ', Date.now());
+				next();	
 			}
 		} else {
 			res.redirect('/authenticate');
