@@ -1,13 +1,17 @@
 var router = require('express').Router();
 var mongoclient = require('mongodb').MongoClient;
 const CrudManager = require('../CrudManager')(mongoclient);
-var https = require('https');
 const config = require('../config/config');
 const swig = require('swig');
-
+const octokit = require('@octokit/rest')({
+	timeout: 0,
+	headers: {
+		accept: 'application/vnd.github.v3+json',
+		'user-agent': config.oauth.userAgent
+	},
+	agent: undefined
+});
 module.exports = (logger) => {
-	const ApiRequester = require('../ApiRequest')(https,logger);
-
 	router.get('/', (req, res) => {
 		res.send(swig.renderFile('views/index.html', {
 			client_id: config.oauth.client_id,
@@ -22,35 +26,40 @@ module.exports = (logger) => {
 	});
 
 	router.post('/form', (req, res) => {
-		var token;
+		//redundant authentication for security
 		if (req.session.user) {
-			token = req.session.user.access_token;
+			var token = req.session.user.access_token;
+			octokit.authenticate({
+				type: 'oauth',
+				token: token
+			});
 		}
-		var user = {
-			username: req.body.username,
-			repo: req.body.repo,
-			access_token: token
-		};
-		new ApiRequester(user).performRequest((data) => {
-			if (data.message) {
-				data.length = 'ERROR: NO ACCESS TOKEN';
-				res.send(swig.renderFile('views/index.html', {
-					commits: data,
-					client_id: config.oauth.client_id,
-					scope: config.oauth.scope,
-					err: req.query.err,
-					user: req.session.user
-				}));
-			} else {
-				res.send(swig.renderFile('views/index.html', {
-					commits: data,
-					client_id: config.oauth.client_id,
-					scope: config.oauth.scope,
-					err: req.query.err,
-					user: req.session.user
-				}));
-			}
-		});
+		octokit.repos
+			.getCommits({
+				owner: req.body.username,
+				repo: req.body.repo,
+			})
+			.then(result => {
+				if (!result) {
+					res.redirect('/?err=No access token provided');
+				} else {
+					res.send(swig.renderFile('views/index.html', {
+						commits: result.data,
+						client_id: config.oauth.client_id,
+						scope: config.oauth.scope,
+						err: req.query.err,
+						user: req.session.user
+					}));
+				}
+			}).catch((err) => {
+				logger.log({
+					level:'error',
+					message:'Content not found for request with username:'+req.body.username+' and repo:'+req.body.repo,
+					date: Date.now().toString(),
+					trace: err.toString()
+				});
+				res.redirect('/?err=No username or repo provided');
+			});
 	});
 
 	router.get('/commits', (req, res) => {
@@ -62,8 +71,11 @@ module.exports = (logger) => {
 		new CrudManager().getAll(conf, (result) => {
 			if (result == null) {
 				res.send('nada');
-				logger.log({ 'level': 'error',
-					'messange': 'error when accessing github api for getting user data with the access token' });
+				logger.log({
+					level: 'error',
+					message: 'error accessing the database',
+					date: Date.now().toString()
+				});
 			} else {
 				res.send(swig.renderFile('views/commits.html', {
 					commits: JSON.stringify(result),

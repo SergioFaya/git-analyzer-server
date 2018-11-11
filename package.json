@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/SergioFaya/TFG#readme",
   "dependencies": {
+    "@octokit/rest": "^15.17.0",
     "curl-request": "^1.1.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
