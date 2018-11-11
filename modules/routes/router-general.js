@@ -53,8 +53,8 @@ module.exports = (logger) => {
 				}
 			}).catch((err) => {
 				logger.log({
-					level:'error',
-					message:'Content not found for request with username:'+req.body.username+' and repo:'+req.body.repo,
+					level: 'error',
+					message: 'Content not found for request with username:' + req.body.username + ' and repo:' + req.body.repo,
 					date: Date.now().toString(),
 					trace: err.toString()
 				});

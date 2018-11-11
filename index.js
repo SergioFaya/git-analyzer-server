@@ -14,11 +14,14 @@ app.use(expressSession({
 //Winston para los logs
 var winston = require('winston');
 var logger = winston.createLogger({
-	level: 'info',
-	format: winston.format.json(),
+	levels: winston.config.syslog.levels,
+	format: winston.format.combine(
+		winston.format.json(),
+		winston.format.colorize()
+	),
 	transports: [
-		new winston.transports.File({ filename: 'hooks.log', level: 'webhook' }),
 		new winston.transports.File({ filename: 'error.log', level: 'error' }),
+		new winston.transports.Console({ level: 'error'}),
 		new winston.transports.File({ filename: 'logs.log', level: 'info' })
 	]
 });
@@ -38,7 +41,7 @@ app.use('/user', router_session);
 app.use('/', router_general);
 app.use('/', router_user);
 app.use('/', router_hooks);
-//app.use('/', router_not_found);
+app.use('/', router_not_found);
 
 app.listen(config.app.port, config.app.source, () => {
 	console.log('listening on port', config.app.port);
