@@ -12,3 +12,4 @@ This is a list of all the stuff I found neccessary or I would like to include in
 * Browserstack testing
 * Karma testing
 * Including React
+* Webpack for reload at runtime while developing
