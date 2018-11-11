@@ -1,6 +1,14 @@
 const router = require('express').Router();
 const request = require('superagent');
 const config = require('../config/config');
+const octokit = require('@octokit/rest')({
+	timeout: 0,
+	headers: {
+		accept: 'application/vnd.github.v3+json',
+		'user-agent': config.oauth.userAgent
+	},
+	agent: undefined
+});
 module.exports = (logger) => {
 
 	router.get('/auth', (req, res) => {
@@ -17,29 +25,36 @@ module.exports = (logger) => {
 				var user = require('../db_objects/user');
 				var access_token = result.body.access_token;
 				user.access_token = access_token;
+				octokit.authenticate({
+					type: 'oauth',
+					token: access_token
+				});
 				request
 					.get('https://api.github.com/user')
 					.set('Authorization', 'token ' + access_token)
-					.then((result2) => {
-						user.username = result2.body.login;
-						user.name = result2.body.name;
-						user.avatar_url = result2.body.avatar_url;
-
-						var conf = {
-							host: config.db.host,
-							col: config.db.collections.users,
-							data: user
-						};
+					.then(result =>{
+						user.username = result.body.login;
+						user.name = result.body.name;
+						user.avatar_url = result.body.avatar_url;
 						req.session.user = user;
 						res.redirect('/');
-					}).catch(() => {
-						logger.log({ level: 'error', message: 'error when accessing github api for getting user data with the access token' });
-						res.redirect('/?err=ERROR using the acces token');
-					}
-					);
-			}).catch(() => {
-				logger.log({ level: 'error', message: 'error when sending to the github api the code for access token' });
-				res.redirect('/?err=ERROR getting the access token');
+					}).catch((err) => {
+						logger.log({ 
+							level: 'error',
+							message: 'error when getting the user data',
+							date: Date.now().toString(),
+							trace: err.toString()
+						});
+						res.redirect('/?err=ERROR: cannot authenticate, try making another request');
+					});
+			}).catch((err) => {
+				logger.log({ 
+					level: 'error',
+					message: 'error when getting the github access token',
+					date: Date.now().toString(),
+					trace: err.toString()
+				});
+				res.redirect('/?err=ERROR: cannot get the access token');
 			});
 	});
 
