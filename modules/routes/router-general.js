@@ -1,6 +1,5 @@
 var router = require('express').Router();
-var mongoclient = require('mongodb').MongoClient;
-const CrudManager = require('../CrudManager')(mongoclient);
+const CrudObject = require('../db_objects/CrudObject');
 const config = require('../config/config');
 const swig = require('swig');
 const octokit = require('@octokit/rest')({
@@ -68,7 +67,7 @@ module.exports = (logger) => {
 			query: config.db.queries.allCommits,
 			col: config.db.collections.commits
 		};
-		new CrudManager().getAll(conf, (result) => {
+		new CrudObject(conf).getAll((result) => {
 			if (result == null) {
 				res.send('nada');
 				logger.log({
