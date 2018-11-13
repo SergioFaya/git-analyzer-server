@@ -67,7 +67,7 @@ module.exports = (logger) => {
 			query: config.db.queries.allCommits,
 			col: config.db.collections.commits
 		};
-		new CrudObject(conf).getAll((result) => {
+		new CrudObject(conf).retrieve((result) => {
 			if (result == null) {
 				res.send('nada');
 				logger.log({

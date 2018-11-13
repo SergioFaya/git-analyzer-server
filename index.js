@@ -30,7 +30,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var router_hooks = require('./modules/routes/webhooks')(logger);
+var router_hooks = require('./modules/routes/router-webhooks')(logger);
 var router_user = require('./modules/routes/router-user')(logger);
 var router_general = require('./modules/routes/router-general')(logger);
 var router_not_found = require('./modules/routes/router-notfound')(logger);

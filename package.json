@@ -7,6 +7,7 @@
     "test": "mocha",
     "pretest": "echo 'put here your code to run BEFORE the tests'",
     "posttest": "echo 'put here your code to run AFTER the tests'",
+    "smee": "smee -P /hooks -u https://smee.io/F51nd9kT2ydjrrum",
     "start": "node index.js",
     "start:dev": "node index.js dev 3000",
     "lint": "eslint modules index.js test",
