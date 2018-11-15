@@ -61,3 +61,6 @@ typings/
 .next
 # temporary files
 *.tmp
+
+# debug vscode settings
+.vscode
