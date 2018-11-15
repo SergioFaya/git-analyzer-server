@@ -1,8 +1,4 @@
-const config = require('./modules/config/config');
-const express = require('express');
-// TODO: Revisar la utilidad de los node webhooks ya que de momento postean guay
-//var wh = require('node-webhooks');
-var app = express();
+
 var expressSession = require('express-session');
 app.use(expressSession({
 	secret: 'abcdefg',

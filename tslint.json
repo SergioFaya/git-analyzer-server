@@ -1,0 +1,28 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "linterOptions": {
+        "exclude": []
+    },
+    "rules": {
+        "max-line-length":{
+            "options":[120]
+        },
+        "interface-name": [false],
+        "quotemark": [true, "single"],
+        "linebreak-style": [true, "LF"],
+        "indent": [true, "tabs", 4],
+        "eofline":false,
+        "no-console": {
+            "severity": "warn",
+            "options": [
+                "log",
+                "debug"
+            ]
+        }
+    },
+    "rulesDirectory": []
+}
