@@ -64,3 +64,6 @@ typings/
 
 # debug vscode settings
 .vscode
+
+# distribution environment
+dst/

@@ -1,7 +1,11 @@
 {
     "compilerOptions": {
-        "noUnusedLocals": true,
-        "noUnusedParameters": false,
+        "experimentalDecorators": true,
+        "newLine": "LF",
+        "preserveConstEnums": true,
+        "removeComments": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": true,
         "module": "commonjs",
         "esModuleInterop": true,
         "target": "es6",
@@ -9,7 +13,7 @@
         "noImplicitAny": true,
         "moduleResolution": "node",
         "sourceMap": true,
-        "outDir": "dist",
+        "outDir": "dst",
         "baseUrl": ".",
         "paths": {
             "*": [
