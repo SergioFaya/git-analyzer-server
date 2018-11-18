@@ -33,6 +33,7 @@
     "@types/mongoose": "^5.3.1",
     "@types/superagent": "^3.8.4",
     "curl-request": "^1.1.1",
+    "dom": "0.0.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "mongoose": "^5.3.12",
