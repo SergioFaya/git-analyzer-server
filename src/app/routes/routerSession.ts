@@ -7,6 +7,7 @@ router.use((req: Request, _res: Response, next: NextFunction) => {
 		logger.log('info', 'Time: ' + String(Date.now()));
 		next();
 	} else {
+		// tslint:disable-next-line:no-console
 		console.log('Not auth');
 	}
 });
