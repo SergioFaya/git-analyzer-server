@@ -6,6 +6,6 @@ export interface IUser {
 }
 
 export enum UserType {
-	user,
-	org,
+	user = 'user',
+	org = 'org',
 }

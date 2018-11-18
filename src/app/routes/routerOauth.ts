@@ -5,6 +5,7 @@ import { config } from '../../config/impl/Config';
 import { UserSession } from '../db/Session';
 import User from '../db/impl/User';
 import { logger } from '../logger/Logger';
+import { IUser } from '../db/User';
 
 const router = Router();
 const octokit = new Octokit({
@@ -89,6 +90,17 @@ async function saveUserData(req: Request, res: Response, accessToken: any) {
 				name: result2.body.name,
 				type: result2.body.type,
 			};
+
+			const userModel = new User().getModelForClass(User);
+			const userData: IUser = {
+				avatar_url: result2.body.avatar_url,
+				email: result2.body.login,
+				login: result2.body.login,
+				type: result2.body.type,
+			};
+			const u = new userModel(userData);
+			u.save();
+			// TODO: handle response and errors
 			req.session.user = userSession;
 			logger.log({
 				date: Date.now().toString(),
