@@ -3,9 +3,9 @@ import { Request, Response, Router } from 'express';
 import * as request from 'superagent';
 import { config } from '../../config/impl/Config';
 import { UserSession } from '../db/Session';
+import { IUser } from '../db/User';
 import User from '../db/impl/User';
 import { logger } from '../logger/Logger';
-import { IUser } from '../db/User';
 
 const router = Router();
 const octokit = new Octokit({

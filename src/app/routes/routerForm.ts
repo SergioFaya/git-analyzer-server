@@ -15,14 +15,15 @@ const octokit = new Octokit({
 
 router.get('/form', (req: Request, res: Response): void => {
 	octokit.repos
-		.getCommits({
+		.listCommits({
 			owner: req.body.owner,
 			repo: req.body.repo,
 		})
-		.then((result) => {
+		.then((result: any) => {
 			if (!result) {
 				res.status(404).json({
-					message: 'No access token provided',
+					message: 'Error when using getting the repo data',
+					result: {result},
 					success: false,
 				});
 			} else {
@@ -34,7 +35,7 @@ router.get('/form', (req: Request, res: Response): void => {
 					user: req.session.user,
 				});
 			}
-		}).catch((err) => {
+		}).catch((err: any) => {
 			logger.log({
 				date: Date.now().toString(),
 				level: 'error',

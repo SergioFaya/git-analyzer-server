@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/SergioFaya/TFG#readme",
   "dependencies": {
-    "@octokit/rest": "^15.17.0",
+    "@octokit/rest": "^16.0.1",
     "@types/express": "^4.16.0",
     "@types/express-session": "^1.15.11",
     "@types/mongoose": "^5.3.1",
