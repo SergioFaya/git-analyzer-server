@@ -3,9 +3,14 @@ import { Request, Response, Router } from 'express';
 import * as request from 'superagent';
 import { config } from '../../config/impl/Config';
 import { UserSession } from '../db/Session';
-import { IUser } from '../db/User';
+import { IUser, UserType } from '../db/User';
 import User from '../db/impl/User';
 import { logger } from '../logger/Logger';
+
+import jwt from 'jsonwebtoken';
+import redis from 'redis';
+
+const redisClient = redis.createClient(config.redis.port);
 
 const router = Router();
 const octokit = new Octokit({
@@ -32,6 +37,13 @@ router.get('/login', (_req: Request, res: Response): void => {
 		+ config.oauth.client_id + '&scope=' + config.oauth.scope);
 });
 
+/**
+ * Se envia el client id con el secret y el
+ * codigo que nos manda github después del oauth.
+ * -
+ * Si el client_id, el client_secre y el code son
+ * correctos github nos envía un access token.
+ */
 router.get('/auth', (req: Request, res: Response) => {
 	request
 		.post('https://github.com/login/oauth/access_token')
@@ -43,6 +55,7 @@ router.get('/auth', (req: Request, res: Response) => {
 		.set('Accept', 'application/json')
 		.then((result) => {
 			const accessToken = result.body.access_token;
+			// utilizamos la autenticación de octokit
 			octokit.authenticate({
 				token: accessToken,
 				type: 'oauth',
@@ -75,42 +88,51 @@ router.post('/logout', (req: Request, res: Response): void => {
 		sucess: true,
 	});
 });
-
-async function saveUserData(req: Request, res: Response, accessToken: any) {
+/**
+ * Guarda en sesion los datos del usuario que se pillan de github con el token de acceso,
+ * genera un token para el usuario normal y corriente y lo añade a la sesion
+ * -
+ * aqui se implementará un sistema de base de datos basado en redis para guardar los
+ * datos de la sesion del usuario
+ * -
+ * @param req request
+ * @param res response
+ * @param accessToken token de github
+ */
+async function saveUserData(_req: Request, res: Response, accessToken: string) {
 	request
 		.get('https://api.github.com/user')
 		.set('Authorization', 'token ' + accessToken)
-		.then((result2): void => {
-			const userSession: UserSession = {
-				accessToken: String(accessToken),
-				avatarUrl: result2.body.avatar_url,
-				email: result2.body.login,
-				githubUserId: result2.body.user_id,
-				login: result2.body.login,
-				name: result2.body.name,
-				type: result2.body.type,
-			};
+		.then((result): Promise<UserSession> => {
+			const userSession = createSession(accessToken,
+				result.body.avatar_url,
+				result.body.login,
+				result.body.user_id,
+				result.body.login,
+				result.body.name,
+				result.body.type);
 
-			const userModel = new User().getModelForClass(User);
-			const userData: IUser = {
-				avatar_url: result2.body.avatar_url,
-				email: result2.body.login,
-				login: result2.body.login,
-				type: result2.body.type,
-			};
-			const u = new userModel(userData);
-			u.save();
-			// TODO: handle response and errors
-			req.session.user = userSession;
-			logger.log({
-				date: Date.now().toString(),
-				level: 'info',
-				message: 'Assigning the user data to the session',
+			createUser(result.body.avatar_url,
+				result.body.login,
+				result.body.login,
+				result.body.type);
+			// Pasamos el userserssion al siguiente then
+			return userSession;
+		}).then((userSession: UserSession) => {
+			const token = jwt.sign(userSession, config.app.tokenSecret, {
+				// no le meto expiración pero si fuera necesario
+				// expiresIn: 86400
 			});
 			res.status(202).json({
 				message: 'Success in authorizing the user',
 				success: true,
-				userSession: { userSession },
+				token,
+			});
+		}).then(() => {
+			logger.log({
+				date: Date.now().toString(),
+				level: 'info',
+				message: 'Assigning the user data to the session',
 			});
 		}).catch((err) => {
 			logger.log({
@@ -124,6 +146,49 @@ async function saveUserData(req: Request, res: Response, accessToken: any) {
 				success: false,
 			});
 		});
+}
+
+async function createSession(accessToken: string, avatarUrl: string, email: string,
+	githubUserId: string, login: string, name: string, type: string): Promise<UserSession> {
+	const userSession: UserSession = {
+		accessToken,
+		avatarUrl,
+		email,
+		githubUserId,
+		login,
+		name,
+		type,
+	};
+	// Guardamos en redis la sesion del usuario
+	redisClient.set(accessToken, JSON.stringify(userSession));
+	return userSession;
+}
+
+async function createUser(avatarUrl: string, email: string, login: string, type: UserType) {
+	const userModel = new User().getModelForClass(User);
+	const userData: IUser = {
+		avatarUrl,
+		email,
+		login,
+		type,
+	};
+	const u = new userModel(userData);
+	userModel.findOne({
+		avatarUrl,
+		email,
+		login,
+		type,
+	}, (err, res) => {
+		logger.log({
+			date: Date.now().toString(),
+			level: 'error',
+			message: 'error when finding the user',
+			trace: err.toString(),
+		});
+		if (res == null) {
+			u.save();
+		}
+	});
 }
 
 export default router;

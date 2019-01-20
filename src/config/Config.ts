@@ -2,11 +2,17 @@ export interface Config {
 	app: AppConfig;
 	db: DbConfig;
 	oauth: OauthConfig;
+	redis: RedisConfig;
+}
+
+interface RedisConfig {
+	port: number;
 }
 
 interface AppConfig {
 	port: number;
 	source: string;
+	tokenSecret: string;
 }
 
 interface DbConfig {

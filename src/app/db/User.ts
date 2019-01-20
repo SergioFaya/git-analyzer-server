@@ -1,5 +1,5 @@
 export interface IUser {
-	avatar_url: string;
+	avatarUrl: string;
 	email: string;
 	login: string;
 	type: UserType;

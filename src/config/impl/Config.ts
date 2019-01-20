@@ -8,6 +8,7 @@ export const config: Config = {
 	app: {
 		port: argPort || 3000,
 		source: '0.0.0.0',
+		tokenSecret: 'WjKJHMvaLkEnfsN3JHFY',
 	},
 	db: {
 		collections: {
@@ -27,5 +28,8 @@ export const config: Config = {
 		scope: 'repo',
 		state: 'abcdefgh',
 		userAgent: 'SergioFaya',
+	},
+	redis: {
+		port: 6379,
 	},
 };

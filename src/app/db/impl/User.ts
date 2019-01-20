@@ -6,7 +6,7 @@ export default class User extends Typegoose implements IUser {
 	public login: string;
 	@prop()
 	// tslint:disable-next-line:variable-name
-	public avatar_url: string;
+	public avatarUrl: string;
 	@prop()
 	public type: UserType;
 	@prop()
@@ -16,7 +16,7 @@ export default class User extends Typegoose implements IUser {
 	constructor(login?: string, avatar_url?: string, type?: UserType, email?: string) {
 		super();
 		this.login = login;
-		this.avatar_url = avatar_url;
+		this.avatarUrl = avatar_url;
 		this.type = type;
 		this.email = email;
 	}
