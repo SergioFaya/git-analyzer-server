@@ -26,7 +26,7 @@ const octokit = new Octokit({
 router.post('/config', (_req: Request, res: Response): void => {
 	res.status(202).json({
 		message: 'config',
-		sucess: true,
+		success: true,
 	});
 	// call to auth with the client id
 });
@@ -85,7 +85,7 @@ router.post('/logout', (req: Request, res: Response): void => {
 	req.session.data = null;
 	res.status(202).json({
 		message: 'user session removed',
-		sucess: true,
+		success: true,
 	});
 });
 /**

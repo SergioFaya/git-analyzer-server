@@ -33,7 +33,7 @@ router.get('/repos', (req: Request, res: Response): void => {
 		});
 		res.status(404).json({
 			message: 'Error: cannot get logger',
-			sucess: false,
+			success: false,
 		});
 	}
 });
