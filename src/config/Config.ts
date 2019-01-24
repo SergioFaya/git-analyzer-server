@@ -3,10 +3,16 @@ export interface Config {
 	db: DbConfig;
 	oauth: OauthConfig;
 	redis: RedisConfig;
+	res: ResConfig;
 }
 
 interface RedisConfig {
 	port: number;
+}
+
+interface ResConfig {
+	public_key: string;
+	private_key: string;
 }
 
 interface AppConfig {

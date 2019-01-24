@@ -32,4 +32,8 @@ export const config: Config = {
 	redis: {
 		port: 6379,
 	},
+	res: {
+		private_key: '../../res/privateKey.pem',
+		public_key: '../../res/publicKey.pem',
+	},
 };

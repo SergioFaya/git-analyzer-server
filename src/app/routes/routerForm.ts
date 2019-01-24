@@ -7,13 +7,13 @@ const router = Router();
 const octokit = new Octokit({
 	agent: undefined,
 	headers: {
-		'accept': 'application/vnd.github.v3+json',
+		'accept': 'application/vnd.github.machine-man-preview+json',
 		'user-agent': config.oauth.userAgent,
 	},
 	timeout: 0,
 });
 
-router.get('/form', (req: Request, res: Response): void => {
+router.post('/form', (req: Request, res: Response): void => {
 	octokit.repos
 		.listCommits({
 			owner: req.body.owner,
@@ -23,7 +23,7 @@ router.get('/form', (req: Request, res: Response): void => {
 			if (!result) {
 				res.status(404).json({
 					message: 'Error when using getting the repo data',
-					result: {result},
+					result: { result },
 					success: false,
 				});
 			} else {
@@ -43,7 +43,7 @@ router.get('/form', (req: Request, res: Response): void => {
 				trace: err.toString(),
 			});
 			res.status(404).json({
-				message: 'No access username or repo provided',
+				message: 'No owner or repo provided',
 				success: false,
 				trace: err.toString(),
 			});

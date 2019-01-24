@@ -67,3 +67,6 @@ typings/
 
 # distribution environment
 dst/
+
+# resource folder
+src/res/

@@ -1,4 +1,5 @@
 import * as bodyParser from 'body-parser';
+import cors from 'cors';
 import express from 'express';
 import expressSession from 'express-session';
 import { MongoError } from 'mongodb';
@@ -21,6 +22,8 @@ class App {
 		this.app.use(bodyParser.urlencoded({ extended: true }));
 		// support application/json type post data
 		this.app.use(bodyParser.json());
+
+		this.app.use(cors());
 	}
 
 	private dbSetUp(): void {
