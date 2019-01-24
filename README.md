@@ -13,3 +13,7 @@ This is a list of all the stuff I found neccessary or I would like to include in
 * Karma testing
 * Including React
 * Webpack for reload at runtime while developing
+
+## Gitflow
+
+![Gitflow diagram](docs/img/gitflow.png)

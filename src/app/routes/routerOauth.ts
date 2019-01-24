@@ -66,7 +66,7 @@ router.get('/auth', (req: Request, res: Response) => {
 				date: Date.now().toString(),
 				level: 'error',
 				message: 'error when getting the github access token',
-				trace: err.toString(),
+				trace: err,
 			});
 			res.status(404).json({
 				message: 'ERROR: cannot get the access token',
@@ -111,7 +111,6 @@ async function saveUserData(_req: Request, res: Response, accessToken: string) {
 				result.body.login,
 				result.body.name,
 				result.body.type);
-
 			createUser(result.body.avatar_url,
 				result.body.login,
 				result.body.login,
@@ -123,6 +122,9 @@ async function saveUserData(_req: Request, res: Response, accessToken: string) {
 				// no le meto expiración pero si fuera necesario
 				// expiresIn: 86400
 			});
+			// Guardamos en redis la sesion del usuario
+			redisClient.set(token, JSON.stringify(userSession));
+
 			res.status(202).json({
 				message: 'Success in authorizing the user',
 				success: true,
@@ -139,7 +141,7 @@ async function saveUserData(_req: Request, res: Response, accessToken: string) {
 				date: Date.now().toString(),
 				level: 'error',
 				message: 'error when getting the user data',
-				trace: err.toString(),
+				trace: err,
 			});
 			res.status(404).json({
 				message: 'ERROR: cannot authenticate, try making another request',
@@ -159,8 +161,6 @@ async function createSession(accessToken: string, avatarUrl: string, email: stri
 		name,
 		type,
 	};
-	// Guardamos en redis la sesion del usuario
-	redisClient.set(accessToken, JSON.stringify(userSession));
 	return userSession;
 }
 
@@ -183,7 +183,7 @@ async function createUser(avatarUrl: string, email: string, login: string, type:
 			date: Date.now().toString(),
 			level: 'error',
 			message: 'error when finding the user',
-			trace: err.toString(),
+			trace: err,
 		});
 		if (res == null) {
 			u.save();
