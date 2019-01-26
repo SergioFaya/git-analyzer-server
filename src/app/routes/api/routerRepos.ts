@@ -29,6 +29,7 @@ const octokit = new Octokit({
 		// 'accept': 'application/vnd.github.v3+json',
 		// custom media type for accesing API during preview
 		'accept': 'application/vnd.github.machine-man-preview+json',
+		// 'accept': 'application/vnd.github.machine-man+json',
 		'user-agent': config.oauth.userAgent,
 		// 'user-agent': 'octokit/rest.js v16.0.1',
 	},
