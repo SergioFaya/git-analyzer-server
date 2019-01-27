@@ -63,7 +63,7 @@ typings/
 *.tmp
 
 # debug vscode settings
-.vscode
+.vscode/
 
 # distribution environment
 dst/
