@@ -1,0 +1,4 @@
+
+la clave privada es del tipo 
+
+PKCS#1 RSAPrivateKey

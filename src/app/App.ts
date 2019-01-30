@@ -14,7 +14,8 @@ class App {
 		this.app = express();
 		this.config();
 		this.dbSetUp();
-		this.sessionSetUp();
+		// no se necesita session, pasamos a tokens
+		// this.sessionSetUp();
 	}
 
 	private config(): void {
@@ -22,7 +23,7 @@ class App {
 		this.app.use(bodyParser.urlencoded({ extended: true }));
 		// support application/json type post data
 		this.app.use(bodyParser.json());
-
+		// cross origin
 		this.app.use(cors());
 	}
 
