@@ -5,6 +5,7 @@ import expressSession from 'express-session';
 import { MongoError } from 'mongodb';
 import mongoose from 'mongoose';
 import { config } from '../config/impl/Config';
+import { logger } from './logger/Logger';
 
 class App {
 
@@ -30,17 +31,14 @@ class App {
 	private dbSetUp(): void {
 		mongoose.connect(config.db.host, { useNewUrlParser: true }, (err: MongoError): void => {
 			if (err) {
+				logger.log({
+					date: Date.now().toString(),
+					level: 'error',
+					message: 'Unable to connect to database',
+				});
 				throw new Error('Db error: ' + err);
 			}
 		});
-	}
-
-	private sessionSetUp(): void {
-		this.app.use(expressSession({
-			resave: true,
-			saveUninitialized: true,
-			secret: 'abcdefg',
-		}));
 	}
 }
 

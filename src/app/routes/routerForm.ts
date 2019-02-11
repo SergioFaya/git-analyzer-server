@@ -5,12 +5,8 @@ import { logger } from '../logger/Logger';
 
 const router = Router();
 const octokit = new Octokit({
-	agent: undefined,
-	headers: {
-		'accept': 'application/vnd.github.machine-man-preview+json',
-		'user-agent': config.oauth.userAgent,
-	},
 	timeout: 0,
+	userAgent: config.oauth.userAgent,
 });
 
 router.post('/form', (req: Request, res: Response): void => {

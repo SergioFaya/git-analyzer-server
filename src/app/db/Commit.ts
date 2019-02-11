@@ -1,39 +1,21 @@
-export interface ICommit {
-	sha: string;
-	node_id: string;
-	commit: CommitContent;
-}
+import { prop, Typegoose } from 'typegoose';
+import {Author, Committer, CommitContent, ICommit, Tree, Verification} from './types/Commit';
 
-export interface CommitContent {
-	author: Author;
-	committer: Committer;
-	message: string;
-	tree: Tree;
-	url: string;
-	comment_count: number;
-	verification: Verification;
-}
+export class User extends Typegoose implements ICommit {
 
-export interface Author {
-	name: string;
-	email: string;
-	date: Date;
-}
+	@prop()
+	public commit: CommitContent;
+	@prop()
+	// tslint:disable-next-line:variable-name
+	public node_id: string;
+	@prop()
+	public sha: string;
 
-export interface Committer {
-	name: string;
-	email: string;
-	date: Date;
-}
+	constructor(commit: CommitContent, nodeId: string, sha: string) {
+		super();
+		this.commit = commit;
+		this.node_id = nodeId;
+		this.sha = sha;
+	}
 
-export interface Tree {
-	sha: string;
-	url: string;
-}
-
-export interface Verification {
-	verified: boolean;
-	reason: string;
-	signature: string;
-	payload: string;
 }

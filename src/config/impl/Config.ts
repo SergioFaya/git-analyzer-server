@@ -2,11 +2,12 @@ import { Config } from '../Config';
 
 // If an argument is provided in the initialization
 // of the server, parses it to number and uses it in the config
-const argPort: number = +(process.argv[3]);
+// + is the unary operator for parsing numbers
+const argPort: number = +(process.argv[2]);
 
 export const config: Config = {
 	app: {
-		port: argPort || 3000,
+		port: argPort || 3001,
 		source: '0.0.0.0',
 		tokenSecret: 'WjKJHMvaLkEnfsN3JHFY',
 	},
@@ -35,5 +36,10 @@ export const config: Config = {
 	res: {
 		private_key: '../../res/privateKey.pem',
 		public_key: '../../res/publicKey.pem',
+	},
+	services: {
+		auth: {
+			baseUrl: 'localhost:3000',
+		},
 	},
 };

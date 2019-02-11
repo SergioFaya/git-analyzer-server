@@ -1,7 +1,7 @@
 import Octokit from '@octokit/rest';
 import { Request, Response, Router } from 'express';
 import { config } from '../../../config/impl/Config';
-import { UserSession } from '../../db/Session';
+import { UserSession } from '../../db/types/Session';
 import { logger } from '../../logger/Logger';
 
 import * as fs from 'fs';
@@ -24,16 +24,8 @@ const options = {};
 
 const router = Router();
 const octokit = new Octokit({
-	agent: undefined,
-	headers: {
-		// 'accept': 'application/vnd.github.v3+json',
-		// custom media type for accesing API during preview
-		'accept': 'application/vnd.github.machine-man-preview+json',
-		// 'accept': 'application/vnd.github.machine-man+json',
-		'user-agent': config.oauth.userAgent,
-		// 'user-agent': 'octokit/rest.js v16.0.1',
-	},
 	timeout: 0,
+	userAgent: config.oauth.userAgent,
 });
 
 router.get('/repos', (req: Request, res: Response): void => {

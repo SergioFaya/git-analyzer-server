@@ -4,6 +4,7 @@ export interface Config {
 	oauth: OauthConfig;
 	redis: RedisConfig;
 	res: ResConfig;
+	services: ServicesConfig;
 }
 
 interface RedisConfig {
@@ -40,4 +41,12 @@ interface OauthConfig {
 	state: string;
 	scope: string;
 	userAgent: string;
+}
+
+interface ServicesConfig {
+	auth: ServiceAuth;
+}
+
+interface ServiceAuth {
+	baseUrl: string;
 }
