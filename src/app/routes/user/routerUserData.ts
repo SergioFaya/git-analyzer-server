@@ -9,8 +9,8 @@ const router = Router();
 
 // TODO: Extract code and promisify
 
-router.get('/user/info', (_req: Request, res: Response): void => {
-	const token = '064d832629dc058c8cb2fca0598850093b1c2954';
+router.get('/user/info', (req: Request, res: Response): void => {
+	const token = req.header('x-github-token');
 	superagent
 		.get('https://api.github.com/user')
 		.set('Authorization', `token ${token}`)
