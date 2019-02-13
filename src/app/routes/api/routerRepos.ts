@@ -1,12 +1,9 @@
 import Octokit from '@octokit/rest';
 import { Request, Response, Router } from 'express';
+import * as superagent from 'superagent';
 import { config } from '../../../config/impl/Config';
 import { UserSession } from '../../db/types/Session';
 import { logger } from '../../logger/Logger';
-
-import * as fs from 'fs';
-import * as jwt from 'jsonwebtoken';
-import NodeRSA from 'node-rsa';
 
 const payload = {
 	exp: Date.now() + (10 * 60),
@@ -23,35 +20,23 @@ const options = {};
 // const token = jwt.sign(payload, privateKey, options);
 
 const router = Router();
-const octokit = new Octokit({
-	timeout: 0,
-	userAgent: config.oauth.userAgent,
-});
 
 router.get('/repos', (req: Request, res: Response): void => {
-	const userSession: UserSession = req.session.userSession;
-	if (userSession) {
-		octokit.apps.listRepos({})
-			.then((result: any) => {
+	const token = req.header('x-github-token');
+	if (token) {
+		superagent
+			.get('http://api.github.com/user/repos')
+			.set('Authorization', `token ${token}`)
+			.then((result) => {
 				res.status(202).json({
-					message: 'repo list obtained',
-					result,
+					message: 'Error: cannot get logger',
+					repos: result.body,
 					success: true,
-					userSession,
 				});
-			})
-			.catch((err: any) => {
-				logger.log({
-					date: Date.now().toString(),
-					level: 'error',
-					message: 'Error: error when calling api',
-					trace: err,
-				});
-				res.status(500).json({
-					message: 'Error with github api',
-					trace: err,
-				});
+			}).catch((err) => {
+				console.log(err);
 			});
+
 	} else {
 		logger.log({
 			date: Date.now().toString(),
@@ -62,7 +47,6 @@ router.get('/repos', (req: Request, res: Response): void => {
 		res.status(404).json({
 			message: 'Error: cannot get logger',
 			success: false,
-			userSession,
 		});
 	}
 });
