@@ -1,1 +1,0 @@
-// list organizations of user

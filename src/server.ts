@@ -2,7 +2,6 @@ import { Router } from 'express';
 import app from './app/App';
 import { logger } from './app/logger/Logger';
 import routerRepos from './app/routes/api/routerRepos';
-import routerForm from './app/routes/routerForm';
 import routerSession from './app/routes/routerSession';
 import routerWebhooks from './app/routes/routerWebhooks';
 import routerUserData from './app/routes/user/routerUserData';
@@ -17,7 +16,7 @@ app.use((_req, res, next) => {
 	next();
 });
 
-const privateSites = [routerSession, routerWebhooks, routerRepos, routerForm, routerUserData];
+const privateSites = [routerSession, routerWebhooks, routerRepos,  routerUserData];
 
 privateSites.filter((x: Router) => {
 	app.use('/', x);
