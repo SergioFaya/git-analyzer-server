@@ -16,7 +16,8 @@ export const config: Config = {
 			commits: 'commits',
 			users: 'users',
 		},
-		host: 'mongodb://admin:admin1@ds247223.mlab.com:47223/git-analyzer',
+		//host: 'mongodb://admin:admin1@ds247223.mlab.com:47223/git-analyzer',
+		host: 'mongodb://127.0.0.1:27017/git-analyzer',
 		name: 'db',
 		port: 27017,
 		queries: [
