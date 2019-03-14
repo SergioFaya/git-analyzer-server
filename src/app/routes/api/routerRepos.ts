@@ -110,8 +110,14 @@ router.get('/contributors', (req: Request, res: Response): void => {
 					.set('Authorization', `token ${token}`)
 					.then((result2) => {
 						const arr = result2.body;
-						// const total: any = [];
-						sendResponse(final, arr, res);
+						const total: any[] = [];
+						return popullateTotal(final, arr, total);
+					}).then((total) => {
+						res.status(202).json({
+							contributors: total,
+							message: 'User collaborators',
+							success: true,
+						});
 					});
 			}).catch((err) => {
 				logger.log({
@@ -163,6 +169,7 @@ async function popullateTotal(final: [], arr: [], total: any) {
 			});
 		});
 	}
+	return total;
 }
 
 async function sendResponse(final: any, arr: any, res: any) {
