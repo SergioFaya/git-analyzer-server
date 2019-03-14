@@ -110,33 +110,8 @@ router.get('/contributors', (req: Request, res: Response): void => {
 					.set('Authorization', `token ${token}`)
 					.then((result2) => {
 						const arr = result2.body;
-						const total: any = [];
-						final.forEach((i: any) => {
-							arr.forEach((j: any) => {
-								const reduced = j.weeks.reduce((anterior: any, actual: any) => {
-									return {
-										a: anterior.a + actual.a,
-										c: anterior.c + actual.c,
-										d: anterior.d + actual.d,
-									};
-								});
-								if (i.login === j.author.login) {
-									total.push({
-										avatar_url: i.avatar_url,
-										contributions: i.contributions,
-										login: i.login,
-										modifications: reduced,
-										total: j.total,
-									});
-								}
-							});
-
-						});
-						res.status(202).json({
-							contributors: total,
-							message: 'User collaborators',
-							success: true,
-						});
+						// const total: any = [];
+						sendResponse(final, arr, res);
 					});
 			}).catch((err) => {
 				logger.log({
@@ -165,4 +140,38 @@ router.get('/contributors', (req: Request, res: Response): void => {
 	}
 });
 
+async function popullateTotal(final: [], arr: [], total: any) {
+	if (arr instanceof Array && final instanceof Array) {
+		final.forEach((i: any) => {
+			arr.forEach((j: any) => {
+				const reduced = j.weeks.reduce((anterior: any, actual: any) => {
+					return {
+						a: anterior.a + actual.a,
+						c: anterior.c + actual.c,
+						d: anterior.d + actual.d,
+					};
+				});
+				if (i.login === j.author.login) {
+					total.push({
+						avatar_url: i.avatar_url,
+						contributions: i.contributions,
+						login: i.login,
+						modifications: reduced,
+						total: j.total,
+					});
+				}
+			});
+		});
+	}
+}
+
+async function sendResponse(final: any, arr: any, res: any) {
+	const total: any[] = [];
+	await popullateTotal(final, arr, total);
+	res.status(202).json({
+		contributors: total,
+		message: 'User collaborators',
+		success: true,
+	});
+}
 export default router;
