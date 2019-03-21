@@ -18,7 +18,6 @@ const local: Config = {
 			commits: 'commits',
 			users: 'users',
 		},
-		// host: 'mongodb://admin:admin1@ds247223.mlab.com:47223/git-analyzer',
 		host: 'mongodb://127.0.0.1:27017/git-analyzer',
 		name: 'db',
 		port: 27017,
@@ -81,7 +80,7 @@ const deploy: Config = {
 	},
 	services: {
 		auth: {
-			baseUrl: '',
+			baseUrl: 'http://ec2-34-243-245-144.eu-west-1.compute.amazonaws.com',
 		},
 	},
 };
