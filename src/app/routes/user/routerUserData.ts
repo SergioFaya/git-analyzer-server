@@ -8,9 +8,10 @@ import { logger } from '../../logger/Logger';
 const router = Router();
 
 // TODO: Extract code and promisify
-
+// TODO: extract urls
+// do services
 router.get('/user/info', (req: Request, res: Response): void => {
-	const token = req.header('x-github-token');
+	const token = req.headers['x-github-token'];
 	superagent
 		.get('https://api.github.com/user')
 		.set('Authorization', `token ${token}`)
@@ -56,25 +57,18 @@ router.get('/user/info', (req: Request, res: Response): void => {
 });
 
 function createUser(body: any, email: string, callback: any) {
-	const user = new userModel({
-		avatarUrl: body.avatar_url,
-		email,
-		login: body.login,
-		type: body.type,
-		userId: body.id,
-	});
-	user.save((err, _product) => {
-		if (err) {
-			logger.log({
-				date: Date.now().toString(),
-				level: 'error',
-				message: '',
-				trace: err.message,
-			});
-			callback(err);
-		} else {
-			callback(null, user);
-		}
-	});
+	if (body !== undefined && email ) {
+		const user = new userModel({
+			avatarUrl: body.avatar_url,
+			email,
+			login: body.login,
+			type: body.type,
+			userId: body.id,
+		});
+
+		callback(null, user);
+	} else {
+		callback(new Error('Wrong params in user creation'));
+	}
 }
 export default router;
