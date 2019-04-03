@@ -2,12 +2,14 @@ import { NextFunction, Request, Response, Router } from 'express';
 import request from 'superagent';
 import { config } from '../../config/impl/Config';
 import { logger } from '../../logger/Logger';
-
+import AuthenticationService from '../services/impl/auth';
 const router = Router();
 
-router.use((req: Request, res: Response, next: NextFunction) => {
-	const token = req.headers['x-access-token'];
+router.use((req: Request, res: Response, _next: NextFunction) => {
+	const token = req.headers['x-access-token'] as string;
 	if (token) {
+		AuthenticationService.auth(token);
+		/*
 		request
 			.get(config.services.auth.baseUrl + '/login/check')
 			.set('Accept', 'application/json')
@@ -40,6 +42,7 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 					success: false,
 				});
 			});
+			*/
 	} else {
 		res.status(401).json({
 			message: 'No token provided, please login',
