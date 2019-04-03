@@ -5,7 +5,7 @@ import expressSession from 'express-session';
 import { MongoError } from 'mongodb';
 import mongoose from 'mongoose';
 import { config } from '../config/impl/Config';
-import { logger } from './logger/Logger';
+import { logger } from '../logger/Logger';
 
 class App {
 

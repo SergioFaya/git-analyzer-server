@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import request from 'superagent';
 import { config } from '../../config/impl/Config';
-import { logger } from '../logger/Logger';
+import { logger } from '../../logger/Logger';
 
 const router = Router();
 

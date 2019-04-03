@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import app from './app/App';
-import { logger } from './app/logger/Logger';
 import routerRepos from './app/routes/api/routerRepos';
 import routerSession from './app/routes/routerSession';
 import routerWebhooks from './app/routes/routerWebhooks';
 import routerUserData from './app/routes/user/routerUserData';
+import { logger } from './logger/Logger';
 
 import { config } from './config/impl/Config';
 

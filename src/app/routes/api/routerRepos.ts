@@ -2,8 +2,8 @@ import Octokit from '@octokit/rest';
 import { Request, Response, Router } from 'express';
 import * as superagent from 'superagent';
 import { config } from '../../../config/impl/Config';
+import { logger } from '../../../logger/Logger';
 import { UserSession } from '../../db/types/Session';
-import { logger } from '../../logger/Logger';
 
 const payload = {
 	exp: Date.now() + (10 * 60),
