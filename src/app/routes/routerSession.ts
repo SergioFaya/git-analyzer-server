@@ -1,55 +1,44 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import request from 'superagent';
 import { config } from '../../config/impl/Config';
-import { logger } from '../../logger/Logger';
-import AuthenticationService from '../services/impl/auth';
+import { errorLogger, infoLogger, logger } from '../../logger/Logger';
+import AuthService from '../services/impl/AuthService';
 const router = Router();
 
-router.use((req: Request, res: Response, _next: NextFunction) => {
+const ERROR_IN_SERVER = {
+	message: 'Error in authentication server, try again later',
+	success: false,
+};
+
+const ERROR_TOKEN_NOT_VALID = {
+	message: 'Session token not valid, please login again',
+	success: false,
+};
+
+const ERROR_NO_TOKEN = {
+	message: 'No token provided, please login',
+	success: false,
+};
+
+router.use((req: Request, res: Response, next: NextFunction) => {
 	const token = req.headers['x-access-token'] as string;
 	if (token) {
-		AuthenticationService.auth(token);
-		/*
-		request
-			.get(config.services.auth.baseUrl + '/login/check')
-			.set('Accept', 'application/json')
-			.set('x-access-token', token.toString())
+		AuthService.auth(token)
 			.then((result: any) => {
-				if (result.body.success && !result.body.expired) {
+				const { success, expired } = result.body;
+				if (success && !expired) {
 					next();
 				} else {
-					logger.log({
-						date: Date.now().toString(),
-						level: 'error',
-						message: 'trying to access with a wrong token',
-						token,
-					});
-					res.status(401).json({
-						message: 'Error: session token not valid, please login again',
-						success: false,
-					});
+					errorLogger(`trying to access with a wrong token -> ${token}`);
+					res.status(401).json(ERROR_TOKEN_NOT_VALID);
 				}
-			}).catch((err: any) => {
-				logger.log({
-					date: Date.now().toString(),
-					level: 'error',
-					message: 'cannot connect with authentication server',
-					token,
-					trace: err.toString(),
-				});
-				res.status(401).json({
-					message: 'Error in authentication server, try again later',
-					success: false,
-				});
+			}).catch((err: Error) => {
+				errorLogger('cannot connect with authentication server', err);
+				res.status(401).json(ERROR_IN_SERVER);
 			});
-			*/
 	} else {
-		res.status(401).json({
-			message: 'No token provided, please login',
-			success: false,
-		});
+		res.status(401).json(ERROR_NO_TOKEN);
 	}
-
 });
 
 export default router;

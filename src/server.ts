@@ -2,8 +2,8 @@ import { Router } from 'express';
 import app from './app/App';
 import routerRepos from './app/routes/api/routerRepos';
 import routerSession from './app/routes/routerSession';
+import routerUserData from './app/routes/routerUserData';
 import routerWebhooks from './app/routes/routerWebhooks';
-import routerUserData from './app/routes/user/routerUserData';
 import { logger } from './logger/Logger';
 
 import { config } from './config/impl/Config';
