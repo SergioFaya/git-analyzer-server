@@ -8,7 +8,10 @@
 		"exclude": []
 	},
 	"rules": {
-		"align": [true, "statements"],
+		"align": [
+			true,
+			"statements"
+		],
 		"max-line-length": {
 			"options": [
 				120
@@ -43,14 +46,20 @@
 			"check-format",
 			"ban-keywords",
 			"allow-leading-underscore"
-		],"ordered-imports": [
+		],
+		"ordered-imports": [
 			true,
 			{
-			  "import-sources-order": "lowercase-last",
-			  "named-imports-order": "lowercase-first",
-			  "module-source-path": "full"
+				"import-sources-order": "lowercase-last",
+				"named-imports-order": "lowercase-first",
+				"module-source-path": "full"
 			}
-		  ]
+		]
+		// permite utilizar el tipo Array<T>
+		,
+		"array-type": false,
+		// ordenar propiedades del json
+		"object-literal-sort-keys": false,
 	},
 	"rulesDirectory": []
 }

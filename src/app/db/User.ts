@@ -3,16 +3,16 @@ import { IUser, UserType } from './types/User';
 
 export class User extends Typegoose implements IUser {
 	@prop({ required: true, index: true })
-	public userId: number;
+	public userId?: number;
 	@prop({ required: true })
-	public login: string;
+	public login?: string;
 	@prop({ required: true })
 	// tslint:disable-next-line:variable-name
-	public avatarUrl: string;
+	public avatarUrl?: string;
 	@prop({ required: true })
-	public type: UserType;
+	public type?: UserType;
 	@prop({ required: true })
-	public email: string;
+	public email?: string;
 
 	// tslint:disable-next-line:variable-name
 	constructor(userId?: number, login?: string, avatar_url?: string, type?: UserType, email?: string) {

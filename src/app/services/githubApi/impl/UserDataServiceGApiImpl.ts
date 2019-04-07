@@ -1,7 +1,7 @@
 import * as superagent from 'superagent';
-import { errorLogger } from '../../../logger/Logger';
-import UserData from '../../models/UserData';
-import UserDataService from '../UserDataService';
+import { errorLogger } from '../../../../logger/Logger';
+import UserData from '../../../models/UserData';
+import UserDataService from '../UserDataServiceGApi';
 
 const userDataService: UserDataService = {
 	getUserDataByToken: (token: string): Promise<UserData> => {

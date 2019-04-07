@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import app from './app/App';
-import routerRepos from './app/routes/api/routerRepos';
-import routerSession from './app/routes/routerSession';
-import routerUserData from './app/routes/routerUserData';
-import routerWebhooks from './app/routes/routerWebhooks';
-import { logger } from './logger/Logger';
-
+import routerReposContributions from './app/routes/api/repo/ContributionRouter';
+import routerRepos from './app/routes/api/repo/RepoRouter';
+import routerUserData from './app/routes/api/user/UserDataRouter';
+import routerSession from './app/routes/auth/AuthenticactionMiddleware';
+import routerWebhooks from './app/routes/hooks/WebHooksRouter';
 import { config } from './config/impl/Config';
+import { logger } from './logger/Logger';
 
 app.use((_req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -16,7 +16,7 @@ app.use((_req, res, next) => {
 	next();
 });
 
-const privateSites = [routerSession, routerWebhooks, routerRepos,  routerUserData];
+const privateSites = [routerSession, routerWebhooks, routerRepos, routerUserData, routerReposContributions];
 
 privateSites.filter((x: Router) => {
 	app.use('/', x);

@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import request from 'superagent';
-import { config } from '../../config/impl/Config';
-import { errorLogger, infoLogger, logger } from '../../logger/Logger';
-import AuthService from '../services/impl/AuthService';
+import { errorLogger } from '../../../logger/Logger';
+import AuthServiceGApiImpl from '../../services/githubApi/impl/AuthServiceGApiImpl';
+
 const router = Router();
 
 const ERROR_IN_SERVER = {
@@ -23,7 +22,7 @@ const ERROR_NO_TOKEN = {
 router.use((req: Request, res: Response, next: NextFunction) => {
 	const token = req.headers['x-access-token'] as string;
 	if (token) {
-		AuthService.auth(token)
+		AuthServiceGApiImpl.auth(token)
 			.then((result: any) => {
 				const { success, expired } = result.body;
 				if (success && !expired) {

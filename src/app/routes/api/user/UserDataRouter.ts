@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
-import { errorLogger } from '../../logger/Logger';
-import UserData from '../models/UserData';
-import UserDataService from '../services/impl/UserDataService';
+import { errorLogger } from '../../../../logger/Logger';
+import UserData from '../../../models/UserData';
+import UserDataService from '../../../services/githubApi/impl/UserDataServiceGApiImpl';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import winston from 'winston';
 
-export const errorLogger = (message: string, trace: Error = null) => {
+export const errorLogger = (message: string, trace: Error | undefined = undefined) => {
 	logger.log({
 		date: Date.now().toString(),
 		level: 'error',
@@ -16,6 +16,18 @@ export const infoLogger = (message: string) => {
 		message,
 	});
 };
+
+export interface Log {
+	date: string;
+	level: LogLevel;
+	message?: string;
+	trace?: Error;
+}
+
+export enum LogLevel {
+	error = 'error',
+	info = 'info',
+}
 
 export const logger = winston.createLogger({
 	format: winston.format.combine(

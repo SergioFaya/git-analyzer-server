@@ -1,4 +1,4 @@
-import UserData from '../models/UserData';
+import UserData from '../../models/UserData';
 
 export default interface UserDataService {
 	getUserPrimaryEmailByToken(token: string): Promise<string>;

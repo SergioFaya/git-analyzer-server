@@ -1,11 +1,11 @@
 export default interface UserData {
-	id: number;
-	username: string;
-	login: string;
-	email: string;
-	imageUrl: string;
-	type: UserType;
-	name: string;
+	id: number | undefined;
+	username: string | undefined;
+	login: string | undefined;
+	email: string | undefined;
+	imageUrl: string | undefined;
+	type: UserType | undefined;
+	name: string | undefined;
 }
 
 enum UserType {
