@@ -8,8 +8,11 @@ const router = Router();
 // hacer get repo paginado
 router.get('/repos', (req: Request, res: Response): void => {
 	const token = req.header('x-github-token');
+	const page = req.query.page;
+	const per_page = req.query.per_page;
+	console.log(req.query);
 	if (token) {
-		RepoServiceGApiImpl.getAllRepos(token)
+		RepoServiceGApiImpl.getReposPaged(token, page, per_page)
 			.then((repos: Array<Repo>) => {
 				res.status(202).json({ repos });
 			});
