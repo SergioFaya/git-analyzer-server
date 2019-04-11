@@ -8,6 +8,7 @@ import routerWebhooks from './app/routes/hooks/WebHooksRouter';
 import { config } from './config/impl/Config';
 import { logger } from './logger/Logger';
 
+// TODO: considerar cambiar por el módulo cors
 app.use((_req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Credentials', 'true');
