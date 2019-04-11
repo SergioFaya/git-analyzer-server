@@ -7,7 +7,7 @@ const repoServiceGApi: RepoServiceGApi = {
 	getAllRepos: (token: string): Promise<Array<Repo>> => {
 		return getReposPromise(token)
 			.catch((err) => {
-				errorLogger(`Cannot get data from user with token ${token}`, err);
+				errorLogger(`Cannot get repos from user with token ${token}`, err);
 				return Error;
 			})
 			.then((result: any) => createRepoArray(result.body));
@@ -22,13 +22,31 @@ const repoServiceGApi: RepoServiceGApi = {
 			});
 	},
 	getReposPaged: (token, page, per_page): Promise<Array<Repo>> => {
-		return getReposPromise(token,page,per_page)
+		return getReposPromise(token, page, per_page)
 			.catch((err) => {
 				errorLogger(`Cannot get data from user with token ${token}`, err);
 				return Error;
 			})
 			.then((result: any) => createRepoArray(result.body));
 	},
+	getReposPagedBySearch: (token, page, per_page, search, username): Promise<Array<Repo>> => {
+		// https://api.github.com/search/repositories?q=in:name+user:SergioFaya&page=1&per_page=5
+		return getSearchReposPromise(token, String(page), String(per_page), search, username)
+			.catch((err) => {
+				errorLogger(`Cannot get repos from user with token ${token}`, err);
+				return Error;
+			})
+			.then((result: any) => createRepoArray(result.body.items));
+
+
+	},
+};
+
+const getSearchReposPromise = (token: string, page: string, per_page: string, search: string, username: string): Promise<any> => {
+	const searchQuery = `?q=in:name+${search}+user:${username}&page=${page}&per_page=${per_page}`;
+	return superagent
+		.get(`https://api.github.com/search/repositories${searchQuery}`)
+		.set('Authorization', `token ${token}`);
 };
 
 const getReposPromise = (token: string, page?: number, per_page?: number): Promise<any> => {

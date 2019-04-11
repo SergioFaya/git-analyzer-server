@@ -14,7 +14,25 @@ router.get('/repos', (req: Request, res: Response): void => {
 	if (token) {
 		RepoServiceGApiImpl.getReposPaged(token, page, per_page)
 			.then((repos: Array<Repo>) => {
-				res.status(202).json({ repos });
+				res.status(202).json(repos);
+			});
+	} else {
+		errorLogger('cannot get user token', req.body.err);
+		res.status(404).json({
+			message: 'Error: cannot get user repositories',
+			success: false,
+		});
+	}
+});
+
+router.get('/repos/search', (req: Request, res: Response): void => {
+	const token = req.header('x-github-token');
+	const { page, per_page, search, username } = req.query;
+	console.log(req.query);
+	if (token && username && search) {
+		RepoServiceGApiImpl.getReposPagedBySearch(token, page, per_page, search, username)
+			.then((repos: Array<Repo>) => {
+				res.status(202).json(repos);
 			});
 	} else {
 		errorLogger('cannot get user token', req.body.err);
