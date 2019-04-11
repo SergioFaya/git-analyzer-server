@@ -5,20 +5,15 @@ import RepoServiceGApi from '../RepoServiceGApi';
 
 const repoServiceGApi: RepoServiceGApi = {
 	getAllRepos: (token: string): Promise<Array<Repo>> => {
-		return superagent
-			.get('http://api.github.com/user/repos')
-			.set('Authorization', `token ${token}`)
+		return getReposPromise(token)
 			.catch((err) => {
 				errorLogger(`Cannot get data from user with token ${token}`, err);
 				return Error;
 			})
-			// cast implicito
 			.then((result: any) => createRepoArray(result.body));
 	},
 	getRepoByName: (token: string, reponame: string): Promise<Repo> => {
-		return superagent
-			.get(`http://api.github.com/repos/${reponame}`)
-			.set('Authorization', `token ${token}`)
+		return getRepoByNamePromise(token, reponame)
 			.catch((err: Error) => {
 				errorLogger('Cannot get access to the repository', err)
 				return null;
@@ -26,11 +21,29 @@ const repoServiceGApi: RepoServiceGApi = {
 				return result.body as Repo;
 			});
 	},
-	getReposPaged: (_token, _start, _end): Array<Repo> => {
-		// TODO:
-		const arr = Array<Repo>();
-		return arr;
+	getReposPaged: (token, page, per_page): Promise<Array<Repo>> => {
+		return getReposPromise(token,page,per_page)
+			.catch((err) => {
+				errorLogger(`Cannot get data from user with token ${token}`, err);
+				return Error;
+			})
+			.then((result: any) => createRepoArray(result.body));
 	},
+};
+
+const getReposPromise = (token: string, page?: number, per_page?: number): Promise<any> => {
+	console.log(token);
+	var query = { page, per_page };
+	return superagent
+		.get('http://api.github.com/user/repos')
+		.query(query)
+		.set('Authorization', `token ${token}`);
+};
+
+const getRepoByNamePromise = (token: string, reponame: string) => {
+	return superagent
+		.get(`http://api.github.com/repos/${reponame}`)
+		.set('Authorization', `token ${token}`);
 };
 
 const createRepo = (obj: any): Repo => {

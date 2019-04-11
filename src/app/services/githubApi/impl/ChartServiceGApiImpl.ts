@@ -93,4 +93,7 @@ async function popullateStatsChartVM(final: Array<User>, arr: Array<UserRepoStat
 	}
 }
 
+// more charts
+// https://developer.github.com/v3/repos/statistics/#get-the-number-of-additions-and-deletions-per-week
+
 export default ChartService;
