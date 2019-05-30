@@ -1,9 +1,13 @@
+import git from 'simple-git';
+import gitPromise from 'simple-git/promise';
 import superagent from 'superagent';
+import { config } from '../../../../config/impl/Config';
 import { errorLogger } from '../../../../logger/Logger';
 import PieChartContributionsVM from '../../../models/PieChartContributionsVM';
 import User from '../../../models/User';
 import UserRepoStats from '../../../models/UserRepoStats';
 import ChartService from '../ChartServiceGApi';
+const fs = require('fs')
 
 const ChartService: ChartService = {
 	getStatsOfUser: (token, reponame) => {
@@ -16,62 +20,35 @@ const ChartService: ChartService = {
 				});
 	},
 	// TODO: limpiar código
-	getNetworkChartData: (token: string, reponame: string, username: string): any => {
+	getNetworkChartData: (token: string, reponame: string): any => {
 		// no se necesita porque uso una copia en local
-		const USER = username;
-		const REPO = reponame;
 		var token = token;
-		// revisar el path a los ficheros
-		//const reponame = `${USER}/${REPO}`;
+		// TODO: revisar el path a los ficheros
 		const URL = `github.com/${reponame}`;
-
-		const git = require('simple-git');
-		const gitPromise = require('simple-git/promise');
 		const remote = `https://${URL}`;
-		const fs = require('fs')
-
+		// var options = ['--all', '--date-order', '--pretty=%H|%P|%d|%an', '-n 50'];
+		var options = ['--all', '--date-order', '--pretty=%H|%P|%d|%an'];
 		// encadenar promises con Promises.all
+		reponame = config.app.repositoryFilesPath + reponame;
 		if (fs.existsSync(reponame)) {
-			gitPromise(reponame).silent(false)
+			return gitPromise(reponame).silent(false)
 				.pull(remote)
-				.then(() => console.log("finished"))
-				.then(() => {
-					var options = ['--all', '--date-order', '--pretty=%h|%p|%d|%an', '-n 30'];
-					git(`./${reponame}`)
-						.log(options, (err: Error, log: any) => {
-							if (err) {
-								console.log(err);
-							} else {
-								log.all.map((logLine: any) => {
-									var line = logLine.hash;
-									console.log(line);
-									formatLogs(line);
-								});
-							}
-						});
+				.then(async () => {
+					return await callFormatLogsAsync(reponame, options)
 				})
-				.then((result: any) => console.log(result))
+				.then((result: any) => {
+					return result;
+				})
 				.catch((err: Error) => console.error('failed: ', err));
 		} else {
-			gitPromise().silent(false)
+			return gitPromise().silent(false)
 				.clone(remote, reponame)
-				.then(() => console.log("finished"))
-				.then(() => {
-					var options = ['--all', '--date-order', '--pretty=%h|%p|%d|%an', '-n 30'];
-					git(`./${reponame}`)
-						.log(options, (err: Error, log: any) => {
-							if (err) {
-								console.log(err);
-							} else {
-								log.all.map((logLine: any) => {
-									var line = logLine.hash;
-									console.log(line);
-									return formatLogs(line);
-								});
-							}
-						});
+				.then(async () => {
+					return await callFormatLogsAsync(reponame, options)
 				})
-				.then((result: any) => console.log(result))
+				.then((result: any) => {
+					return result;
+				})
 				.catch((err: Error) => console.error('failed: ', err));
 		}
 	}
@@ -122,6 +99,20 @@ const getStatsOfRepoAndContributors = (token: string, reponame: string): Promise
 			return arr as Array<UserRepoStats>;
 		});
 };
+
+async function callFormatLogsAsync(reponame: string, options: string[]) {
+	var result;
+	await git(`./${reponame}`)
+		.log(options, async (err: Error, log: any) => {
+			if (err) {
+				console.log(err);
+			} else {
+				var line = log.all[0].hash;
+				result = await formatLogs(line);
+			}
+		});
+	return result;
+}
 
 async function popullateStatsChartVM(final: Array<User>, arr: Array<UserRepoStats>) {
 	const total: Array<PieChartContributionsVM> = Array<PieChartContributionsVM>();
@@ -224,6 +215,7 @@ async function filterTagsAndBranches(info: any) {
 	return [sortResult(tags), sortResult(branches)]
 }
 
+// TODO: meter await a cada puto for
 async function formatLogs(data: any) {
 	// declara un array vacío en el que se van metiendo los commits listos para representar
 	var formatedCommits = commitsList;
@@ -269,11 +261,25 @@ async function formatLogs(data: any) {
 	}
 
 	for (i = 0; i < formatedCommits.length; i++) {
-		inspectNode(formatedCommits[i]);
+		await inspectNode(formatedCommits[i]);
 	}
 
 	var formatedEdges = <any>[];
-	formatedCommits.forEach((x) => {
+	var formatedNodes = <any>[];
+	var height = 0;
+	formatedNodes = await formatedCommits.map((iterator) => {
+		height += iterator.row * 2;
+		return {
+			x: iterator.col * 4,
+			y: iterator.row * 2,
+			id: iterator.sha1,
+			label: iterator.sha1 + '-' + iterator.committer,
+			size: 10,
+			color: '#008cc2',
+			parents: iterator.parents,
+		}
+	});
+	await formatedCommits.forEach((x) => {
 		if (x.parents && x.parents.length >= 1) {
 			x.parents.forEach((y: any) => {
 				var targetValue = y;
@@ -283,22 +289,17 @@ async function formatLogs(data: any) {
 					source: targetValue,
 					target: x.sha1,
 					size: 5,
-					color: '#008cc2',
-					type: 'curvedArrow'
+					color: '#fffff',
+					type: 'arrow'
 				});
 			});
 		}
 	});
+	commitsList = Array<any>();
 	return {
-		nodes: formatedCommits.map((x) => {
-			return {
-				x: x.col,
-				y: x.row,
-				id: x.sha1,
-				label: x.sha1 + '-' + x.committer,
-				size: 0.5, color: '#008cc2'
-			}
-		}), edges: formatedEdges,
+		nodes: formatedNodes,
+		edges: formatedEdges,
+		height,
 	};
 }
 export default ChartService;

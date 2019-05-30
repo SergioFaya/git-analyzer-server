@@ -20,6 +20,7 @@ interface AppConfig {
 	port: number;
 	source: string;
 	tokenSecret: string;
+	repositoryFilesPath: string;
 }
 
 interface DbConfig {

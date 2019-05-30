@@ -70,3 +70,6 @@ dst/
 
 # resource folder
 src/res/
+
+# resources
+resources/

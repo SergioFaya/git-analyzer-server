@@ -9,9 +9,12 @@ router.get('/charts/gitTree', (req: Request, res: Response): void => {
 	const token = req.header('x-github-token') as string;
 	// TODO: send in query the USERNAME TOO
 	const reponame = req.header('reponame') as string;
-	const username = req.header('username') as string;
+
 	if (token && reponame) {
-		ChartService.getNetworkChartData(token, reponame, username);
+		ChartService.getNetworkChartData(token, reponame)
+			.then((result) => {
+				res.json(result)
+			});
 	} else {
 		errorLogger('cannot get username, token or reponame');
 		res.status(404).json({

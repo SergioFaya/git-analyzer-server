@@ -12,6 +12,7 @@ const local: Config = {
 		port: argPort || 3001,
 		source: '0.0.0.0',
 		tokenSecret: 'WjKJHMvaLkEnfsN3JHFY',
+		repositoryFilesPath: './resources/'
 	},
 	db: {
 		collections: {
@@ -51,6 +52,7 @@ const deploy: Config = {
 		port: argPort || 3001,
 		source: '0.0.0.0',
 		tokenSecret: 'WjKJHMvaLkEnfsN3JHFY',
+		repositoryFilesPath: './resources/'
 	},
 	db: {
 		collections: {

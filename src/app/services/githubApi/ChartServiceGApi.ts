@@ -4,5 +4,5 @@ export default interface ChartService {
 	// getStatsOfRepoAndContributors(token: string, reponame: string): Promise<Array<UserRepoStats>>;
 	getStatsOfUser(token: string, reponame: string): Promise<Array<any>>;
 
-	getNetworkChartData(token: string, reponame: string, username: string): Promise<Array<any>>;
+	getNetworkChartData(token: string, reponame: string): Promise<Array<any>>;
 }
