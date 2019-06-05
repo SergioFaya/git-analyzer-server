@@ -1,6 +1,5 @@
-import { IPieChartContributionsVM, IUserRepoStats } from 'git-analyzer-types';
+import { IPieChartContributionsVM, IUserChart, IUserRepoStats } from 'git-analyzer-types';
 import superagent from 'superagent';
-import { IUserChart } from '../../../../../../git-analyzer-types';
 import { errorLogger } from '../../../../logger/Logger';
 import ChartService from '../ChartServiceGApi';
 

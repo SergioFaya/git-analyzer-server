@@ -1,5 +1,5 @@
+import { Sequence } from 'git-analyzer-types';
 import { MongoClient } from 'mongodb';
-import { Sequence } from '../../../../../git-analyzer-types';
 import { config } from '../../../config/impl/Config';
 import { errorLogger } from '../../../logger/Logger';
 import SequenceService from './SequenceService';
