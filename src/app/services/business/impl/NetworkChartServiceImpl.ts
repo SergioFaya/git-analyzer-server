@@ -2,21 +2,23 @@ import * as fs from 'fs';
 import { EdgeType, IEdgeNetworkChart, INetWorkChart, INodeNetworkChart } from 'git-analyzer-types';
 // @ts-ignore
 import git from 'simple-git';
+// @ts-ignore
 import gitPromise from 'simple-git/promise';
 import { config } from '../../../../config/impl/Config';
 import { errorLogger } from '../../../../logger/Logger';
 import NetworkChartService from '../NetworkChartService';
 
+
+
 const networkChartService: NetworkChartService = {
 	getNetworkChartData: (token: string, username: string, reponame: string): any => {
-		console.log('USERNAME ->>>>>>' + username);
 		const URL = `github.com/${reponame}`;
-		const remote = `https://${username}:${token}@${URL}`;
+		const repository = `https://${username}:${token}@${URL}`;
 		var options = config.app.chartsConfig.logOptions;
 		var path = config.app.repositoryFilesPath + reponame;
 		if (fs.existsSync(path)) {
-			return gitPromise(path).silent(false)
-				.pull(remote)
+			return gitPromise(path)
+				.pull(repository)
 				.then(async () => {
 					return await callFormatLogsAsync(path, options)
 				})
@@ -24,11 +26,11 @@ const networkChartService: NetworkChartService = {
 					return result;
 				})
 				.catch((err: Error) => {
-					errorLogger(`Cannot pull repo:${remote} with simple-git`, err);
+					errorLogger(`Cannot pull repo:${repository} with simple-git`, err);
 				});
 		} else {
 			return gitPromise().silent(false)
-				.clone(remote, path)
+				.clone(repository, path)
 				.then(async () => {
 					return await callFormatLogsAsync(reponame, options)
 				})
@@ -36,7 +38,7 @@ const networkChartService: NetworkChartService = {
 					return result;
 				})
 				.catch((err: Error) => {
-					errorLogger(`Cannot clone repo:${remote} with simple-git`, err)
+					errorLogger(`Cannot clone repo:${repository} with simple-git`, err)
 				});
 		}
 	}

@@ -41,7 +41,7 @@ const getContributorsByRepoName = (token: string, reponame: string): Promise<Arr
 					id: x.id,
 					avatar_url: x.avatar_url,
 					contributions: x.contributions,
-					type: x.type,
+					//type: x.type,
 					site_admin: x.site_admin,
 				};
 				return user;

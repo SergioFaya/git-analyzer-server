@@ -14,7 +14,7 @@
 		"noImplicitAny": true,
 		"moduleResolution": "node",
 		"sourceMap": true,
-		"outDir": "dst",
+		"outDir": "dist",
 		"baseUrl": ".",
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitReturns": true,
@@ -32,11 +32,6 @@
 	},
 	"include": [
 		"src/**/*",
-		"../git-analyzer-types/src/types/charts/UserChart.ts",
-		"../git-analyzer-types/src/types/dbSequences/Sequence.ts",
-		"../git-analyzer-types/src/types/Repo.ts",
-		"../git-analyzer-types/src/types/Org.ts",
-		"../git-analyzer-types/src/types/CodeReview.ts"
 	],
 	"exclude": [
 		"node_modules/*"

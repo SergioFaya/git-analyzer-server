@@ -12,7 +12,7 @@ router.get('/charts/gitTree', (req: Request, res: Response): void => {
 	if (token && reponame) {
 		NetworkChartService.getNetworkChartData(token, username, reponame)
 			.then((result) => {
-				res.json(result)
+				res.status(202).json(result)
 			});
 	} else {
 		errorLogger('cannot get username, token or reponame');
