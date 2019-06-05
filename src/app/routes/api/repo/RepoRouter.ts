@@ -1,7 +1,8 @@
 import { Request, Response, Router } from 'express';
+import { IRepo } from 'git-analyzer-types';
 import { errorLogger } from '../../../../logger/Logger';
-import Repo from '../../../models/Repo';
 import RepoServiceGApiImpl from '../../../services/githubApi/impl/RepoServiceGApiImpl';
+
 
 const router = Router();
 
@@ -13,7 +14,7 @@ router.get('/repos', (req: Request, res: Response): void => {
 	console.log(req.query);
 	if (token) {
 		RepoServiceGApiImpl.getReposPaged(token, page, per_page)
-			.then((repos: Array<Repo>) => {
+			.then((repos: Array<IRepo>) => {
 				res.status(202).json(repos);
 			});
 	} else {
@@ -31,7 +32,7 @@ router.get('/repos/search', (req: Request, res: Response): void => {
 	console.log(req.query);
 	if (token && username && search) {
 		RepoServiceGApiImpl.getReposPagedBySearch(token, page, per_page, search, username)
-			.then((repos: Array<Repo>) => {
+			.then((repos: Array<IRepo>) => {
 				res.status(202).json(repos);
 			});
 	} else {
@@ -52,7 +53,10 @@ router.get('/repos/reponame', (req: Request, res: Response): void => {
 				res.status(202).json(repo);
 			}).catch((err) => {
 				errorLogger('Cannot get access to the repository', err);
-				res.status(404).json({ message: 'Cannot get access to the repository' });
+				res.status(404).json({
+					message: 'Cannot get access to the repository',
+					success: false
+				});
 			});
 	} else {
 		errorLogger('Cannot get user repo');

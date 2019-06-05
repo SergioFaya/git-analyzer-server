@@ -39,9 +39,9 @@ export const logger = winston.createLogger({
 	transports: [
 		new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
 		new winston.transports.Console({
-				format: winston.format.combine(
-					winston.format.simple(),
-					winston.format.colorize(),
+			format: winston.format.combine(
+				winston.format.simple(),
+				winston.format.colorize(),
 			),
 			level: 'error',
 		}),

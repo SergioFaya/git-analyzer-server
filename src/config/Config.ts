@@ -16,11 +16,16 @@ interface ResConfig {
 	private_key: string;
 }
 
+interface ChartsConfig {
+	logOptions: string[];
+}
+
 interface AppConfig {
 	port: number;
 	source: string;
 	tokenSecret: string;
 	repositoryFilesPath: string;
+	chartsConfig: ChartsConfig;
 }
 
 interface DbConfig {

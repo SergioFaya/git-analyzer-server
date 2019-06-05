@@ -1,10 +1,10 @@
+import { IUserData } from 'git-analyzer-types';
 import * as superagent from 'superagent';
 import { errorLogger } from '../../../../logger/Logger';
-import UserData from '../../../models/UserData';
 import UserDataService from '../UserDataServiceGApi';
 
 const userDataService: UserDataService = {
-	getUserDataByToken: (token: string): Promise<UserData> => {
+	getUserDataByToken: (token: string): Promise<IUserData> => {
 		return getUserDataByTokenPromise(token)
 			.catch((err) => {
 				errorLogger(`Cannot get data from user with token ${token}`, err);
@@ -44,9 +44,9 @@ const getUserEmailsByTokenPromise = (token: string): Promise<any> => {
 		.set('Accept', 'application/json');
 };
 
-const createUser = (body: any): UserData => {
+const createUser = (body: any): IUserData => {
 	const { id, login, name, type, avatar_url } = body;
-	const user: UserData = {
+	const user: IUserData = {
 		email: undefined,
 		id,
 		imageUrl: avatar_url,

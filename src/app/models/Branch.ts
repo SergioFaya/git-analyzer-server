@@ -1,4 +1,0 @@
-interface Branch {
-	commits: Commit[];
-
-}

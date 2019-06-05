@@ -1,7 +1,6 @@
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import expressSession from 'express-session';
 import { MongoError } from 'mongodb';
 import mongoose from 'mongoose';
 import { config } from '../config/impl/Config';

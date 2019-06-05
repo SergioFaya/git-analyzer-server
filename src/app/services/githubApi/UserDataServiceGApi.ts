@@ -1,6 +1,7 @@
-import UserData from '../../models/UserData';
+import { IUserData } from 'git-analyzer-types';
+
 
 export default interface UserDataService {
 	getUserPrimaryEmailByToken(token: string): Promise<string>;
-	getUserDataByToken(token: string): Promise<UserData>;
+	getUserDataByToken(token: string): Promise<IUserData>;
 }

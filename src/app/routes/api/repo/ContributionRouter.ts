@@ -10,10 +10,13 @@ router.get('/contributors', (req: Request, res: Response): void => {
 	if (token && reponame) {
 		ChartService.getStatsOfUser(token, reponame)
 			.then((contributionsVM) => {
-				res.status(202).json({ contributionsVM });
+				res.status(202).json(contributionsVM);
 			}).catch((err: Error) => {
 				errorLogger('Cannot get stats from contributors', err);
-				res.status(404).json({ message: 'Cannot get stats from contributors', success: false });
+				res.status(404).json({
+					message: 'Cannot get stats from contributors',
+					success: false
+				});
 			});
 	} else {
 		errorLogger('cannot get username, token or reponame');

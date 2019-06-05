@@ -1,10 +1,12 @@
+import { IRepo } from 'git-analyzer-types';
 import superagent from 'superagent';
 import { errorLogger } from '../../../../logger/Logger';
-import Repo from '../../../models/Repo';
+import { Repo } from '../../../schemas/RepoSchema';
+import SyncRepoService from '../../sync/impl/SyncRepoServiceImpl';
 import RepoServiceGApi from '../RepoServiceGApi';
 
 const repoServiceGApi: RepoServiceGApi = {
-	getAllRepos: (token: string): Promise<Array<Repo>> => {
+	getAllRepos: (token: string): Promise<Array<IRepo>> => {
 		return getReposPromise(token)
 			.catch((err) => {
 				errorLogger(`Cannot get repos from user with token ${token}`, err);
@@ -12,16 +14,18 @@ const repoServiceGApi: RepoServiceGApi = {
 			})
 			.then((result: any) => createRepoArray(result.body));
 	},
-	getRepoByName: (token: string, reponame: string): Promise<Repo> => {
+	getRepoByName: (token: string, reponame: string): Promise<IRepo> => {
 		return getRepoByNamePromise(token, reponame)
 			.catch((err: Error) => {
 				errorLogger('Cannot get access to the repository', err)
 				return null;
 			}).then((result: any) => {
-				return result.body as Repo;
+				const repo = createRepo(result.body) as Repo;
+				SyncRepoService.sync(repo);
+				return repo;
 			});
 	},
-	getReposPaged: (token, page, per_page): Promise<Array<Repo>> => {
+	getReposPaged: (token, page, per_page): Promise<Array<IRepo>> => {
 		return getReposPromise(token, page, per_page)
 			.catch((err) => {
 				errorLogger(`Cannot get data from user with token ${token}`, err);
@@ -29,7 +33,7 @@ const repoServiceGApi: RepoServiceGApi = {
 			})
 			.then((result: any) => createRepoArray(result.body));
 	},
-	getReposPagedBySearch: (token, page, per_page, search, username): Promise<Array<Repo>> => {
+	getReposPagedBySearch: (token, page, per_page, search, username): Promise<Array<IRepo>> => {
 		// https://api.github.com/search/repositories?q=in:name+user:SergioFaya&page=1&per_page=5
 		return getSearchReposPromise(token, String(page), String(per_page), search, username)
 			.catch((err) => {
@@ -64,7 +68,7 @@ const getRepoByNamePromise = (token: string, reponame: string) => {
 		.set('Authorization', `token ${token}`);
 };
 
-const createRepo = (obj: any): Repo => {
+const createRepo = (obj: any): IRepo => {
 	const { id,
 		node_id,
 		name,
@@ -93,22 +97,13 @@ const createRepo = (obj: any): Repo => {
 		html_url,
 		description,
 		url,
-		forks_url,
 		updated_at,
-		homepage,
-		size,
-		has_issues,
-		has_wiki,
-		forks_count,
-		forks,
-		open_issues_count,
 		open_issues,
-		watchers,
 	};
 };
 
-const createRepoArray = (objs: Array<any>): Array<Repo> => {
-	const repos: Array<Repo> = objs.map((val: any) => {
+const createRepoArray = (objs: Array<any>): Array<IRepo> => {
+	const repos: Array<IRepo> = objs.map((val: any) => {
 		return createRepo(val);
 	});
 	return repos;
