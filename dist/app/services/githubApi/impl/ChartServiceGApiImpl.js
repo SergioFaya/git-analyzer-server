@@ -22,6 +22,9 @@ const ChartService = {
             return popullateStatsChartVM(result[0], result[1]);
         });
     },
+    getContributorsForRepo: (token, reponame) => {
+        return getContributorsByRepoName(token, reponame);
+    }
 };
 const getContributorsByRepoNamePromise = (token, reponame) => {
     return superagent_1.default

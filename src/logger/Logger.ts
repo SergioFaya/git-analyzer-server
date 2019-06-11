@@ -43,7 +43,7 @@ export const logger = winston.createLogger({
 				winston.format.simple(),
 				winston.format.colorize(),
 			),
-			level: 'error',
+			level: 'info',
 		}),
 		new winston.transports.File({ filename: 'logs/info.log', level: 'info' }),
 	],

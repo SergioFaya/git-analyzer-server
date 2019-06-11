@@ -28,10 +28,9 @@ router.get('/repos', (req, res) => {
 });
 router.get('/repos/search', (req, res) => {
     const token = req.header('x-github-token');
-    const { page, per_page, search, username } = req.query;
-    console.log(req.query);
+    const { search, username } = req.query;
     if (token && username && search) {
-        RepoServiceGApiImpl_1.default.getReposPagedBySearch(token, page, per_page, search, username)
+        RepoServiceGApiImpl_1.default.getReposPagedBySearch(token, search, username)
             .then((repos) => {
             res.status(202).json(repos);
         });

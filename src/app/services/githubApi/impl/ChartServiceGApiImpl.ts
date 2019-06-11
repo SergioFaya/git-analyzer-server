@@ -4,7 +4,7 @@ import { errorLogger } from '../../../../logger/Logger';
 import ChartService from '../ChartServiceGApi';
 
 const ChartService: ChartService = {
-	getStatsOfUser: (token, reponame) => {
+	getStatsOfUser: (token: string, reponame: string) => {
 		const p1 = getContributorsByRepoName(token, reponame);
 		const p2 = getStatsOfRepoAndContributors(token, reponame);
 		return Promise.all([p1, p2])
@@ -12,6 +12,9 @@ const ChartService: ChartService = {
 				return popullateStatsChartVM(result[0], result[1]);
 			});
 	},
+	getContributorsForRepo: (token: string, reponame: string) => {
+		return getContributorsByRepoName(token, reponame);
+	}
 };
 
 const getContributorsByRepoNamePromise = (token: string, reponame: string): Promise<any> => {

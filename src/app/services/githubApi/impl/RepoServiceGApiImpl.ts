@@ -1,8 +1,8 @@
 import { IRepo } from 'git-analyzer-types';
 import superagent from 'superagent';
 import { errorLogger } from '../../../../logger/Logger';
-import { Repo } from '../../../schemas/RepoSchema';
-import SyncRepoService from '../../sync/impl/SyncRepoServiceImpl';
+import { Repo, RepoModel } from '../../../schemas/RepoSchema';
+import SyncRepoService from '../../sync/impl/SyncRepoService';
 import RepoServiceGApi from '../RepoServiceGApi';
 
 const repoServiceGApi: RepoServiceGApi = {
@@ -11,8 +11,14 @@ const repoServiceGApi: RepoServiceGApi = {
 			.catch((err) => {
 				errorLogger(`Cannot get repos from user with token ${token}`, err);
 				return Error;
-			})
-			.then((result: any) => createRepoArray(result.body));
+			}).then((result: any) => {
+				return createRepoArray(result.body);
+			}).then((repos) => {
+				repos.forEach((repo: IRepo) => {
+					SyncRepoService.sync(repo as Repo);
+				});
+				return repos;
+			});
 	},
 	getRepoByName: (token: string, reponame: string): Promise<IRepo> => {
 		return getRepoByNamePromise(token, reponame)
@@ -25,27 +31,69 @@ const repoServiceGApi: RepoServiceGApi = {
 				return repo;
 			});
 	},
-	getReposPaged: (token, page, per_page): Promise<Array<IRepo>> => {
+	getReposPaged: (token: string, page, per_page): Promise<Array<IRepo>> => {
 		return getReposPromise(token, page, per_page)
 			.catch((err) => {
 				errorLogger(`Cannot get data from user with token ${token}`, err);
 				return Error;
 			})
-			.then((result: any) => createRepoArray(result.body));
+			.then((result: any) => {
+				return createRepoArray(result.body)
+			}).then((repos) => {
+				repos.forEach((repo: IRepo) => {
+					SyncRepoService.sync(repo as Repo);
+				});
+				return repos;
+			});
 	},
-	getReposPagedBySearch: (token, page, per_page, search, username): Promise<Array<IRepo>> => {
-		// https://api.github.com/search/repositories?q=in:name+user:SergioFaya&page=1&per_page=5
-		return getSearchReposPromise(token, String(page), String(per_page), search, username)
-			.catch((err) => {
-				errorLogger(`Cannot get repos from user with token ${token}`, err);
-				return Error;
-			})
-			.then((result: any) => createRepoArray(result.body.items));
-
-
+	getReposPagedBySearch: async (token: string, search: string, username: string): Promise<Array<IRepo>> => {
+		// el getall hace el sync de cada repo
+		return await repoServiceGApi.getAllRepos(token)
+			.then(async () => {
+				const likeSearch = { $regex: ".*" + search + ".*" };
+				const query = {
+					full_name: likeSearch,
+					"owner.login": username
+				};
+				let repoArray: Array<IRepo> = [];
+				await RepoModel.find(query)
+					.then((repos: Array<IRepo>) => {
+						repoArray = createRepoArray(repos);
+					})
+				return repoArray;
+			}).catch(err => {
+				errorLogger("Cannot get all repos for search", err)
+				return [];
+			});
 	},
+	getCommitOfRepo: (token: string, reponame: string, commitSha: string) => {
+		return getCommitOfRepoPromise(token, reponame, commitSha)
+			.then((result) => {
+				var commit = result.body;
+				return commit;
+			}).catch((err: Error) => {
+				errorLogger('Cannot get commit of repo', err);
+				return {};
+			});
+	}
+
 };
 
+const getCommitOfRepoPromise = (token: string, reponame: string, commitSha: string) => {
+	return superagent
+		.get(`https://api.github.com/repos/${reponame}/commits/${commitSha}`)
+		.set('Authorization', `token ${token}`);
+};
+
+/**
+ * Remote search 
+ * @param token 
+ * @param page 
+ * @param per_page 
+ * @param search 
+ * @param username 
+ * @deprecated
+ */
 const getSearchReposPromise = (token: string, page: string, per_page: string, search: string, username: string): Promise<any> => {
 	const searchQuery = `?q=in:name+${search}+user:${username}&page=${page}&per_page=${per_page}`;
 	return superagent
@@ -69,37 +117,7 @@ const getRepoByNamePromise = (token: string, reponame: string) => {
 };
 
 const createRepo = (obj: any): IRepo => {
-	const { id,
-		node_id,
-		name,
-		full_name,
-		html_url,
-		description,
-		url,
-		forks_url,
-		updated_at,
-		homepage,
-		size,
-		has_issues,
-		has_wiki,
-		forks_count,
-		forks,
-		open_issues_count,
-		open_issues,
-		watchers,
-	} = obj;
-
-	return {
-		id,
-		node_id,
-		name,
-		full_name,
-		html_url,
-		description,
-		url,
-		updated_at,
-		open_issues,
-	};
+	return obj as Repo;
 };
 
 const createRepoArray = (objs: Array<any>): Array<IRepo> => {
@@ -109,4 +127,4 @@ const createRepoArray = (objs: Array<any>): Array<IRepo> => {
 	return repos;
 };
 
-export default repoServiceGApi as RepoServiceGApi;
+export default repoServiceGApi;

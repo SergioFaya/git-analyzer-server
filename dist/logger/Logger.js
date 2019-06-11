@@ -31,7 +31,7 @@ exports.logger = winston_1.default.createLogger({
         new winston_1.default.transports.File({ filename: 'logs/error.log', level: 'error' }),
         new winston_1.default.transports.Console({
             format: winston_1.default.format.combine(winston_1.default.format.simple(), winston_1.default.format.colorize()),
-            level: 'error',
+            level: 'info',
         }),
         new winston_1.default.transports.File({ filename: 'logs/info.log', level: 'info' }),
     ],

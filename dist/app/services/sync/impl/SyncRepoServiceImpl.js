@@ -4,7 +4,14 @@ const RepoSchema_1 = require("../../../schemas/RepoSchema");
 const SyncRepoService = {
     sync: (repo) => {
         const r = new RepoSchema_1.RepoModel(repo);
-        r.save();
+        RepoSchema_1.RepoModel.findOne({ id: repo.id }).then(found => {
+            if (found) {
+                r.update(repo);
+            }
+            else {
+                r.save();
+            }
+        });
     },
 };
 exports.default = SyncRepoService;

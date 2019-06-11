@@ -4,8 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 const App_1 = __importDefault(require("./app/App"));
-const ChartsRouter_1 = __importDefault(require("./app/routes/api/charts/ChartsRouter"));
+const ChartRouter_1 = __importDefault(require("./app/routes/api/charts/ChartRouter"));
+const CommitRouter_1 = __importDefault(require("./app/routes/api/commit/CommitRouter"));
 const OrgsRouter_1 = __importDefault(require("./app/routes/api/orgs/OrgsRouter"));
+const IssuesRouter_1 = __importDefault(require("./app/routes/api/recentActivity/IssuesRouter"));
 const ContributionRouter_1 = __importDefault(require("./app/routes/api/repo/ContributionRouter"));
 const RepoRouter_1 = __importDefault(require("./app/routes/api/repo/RepoRouter"));
 const CodeReviewRouter_1 = __importDefault(require("./app/routes/api/review/CodeReviewRouter"));
@@ -24,13 +26,16 @@ App_1.default.use((_req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, token');
     next();
 });
-const privateSites = [AuthenticactionMiddleware_1.default,
+const privateSites = [
     WebHooksRouter_1.default,
+    AuthenticactionMiddleware_1.default,
     RepoRouter_1.default,
+    CommitRouter_1.default,
+    IssuesRouter_1.default,
     UserDataRouter_1.default,
     ContributionRouter_1.default,
     OrgsRouter_1.default,
-    ChartsRouter_1.default,
+    ChartRouter_1.default,
     CodeReviewRouter_1.default
 ];
 privateSites.filter((router) => {
