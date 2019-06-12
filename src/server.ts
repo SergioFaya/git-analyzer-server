@@ -1,8 +1,10 @@
 import { Request, Router } from 'express';
 import { Response } from 'express-serve-static-core';
 import app from './app/App';
-import routerCharts from './app/routes/api/charts/ChartsRouter';
+import routerCharts from './app/routes/api/charts/ChartRouter';
+import routerCommits from './app/routes/api/commit/CommitRouter';
 import routerOrganizations from './app/routes/api/orgs/OrgsRouter';
+import routerIssues from './app/routes/api/recentActivity/IssuesRouter';
 import routerReposContributions from './app/routes/api/repo/ContributionRouter';
 import routerRepos from './app/routes/api/repo/RepoRouter';
 import routerCodeReview from './app/routes/api/review/CodeReviewRouter';
@@ -26,9 +28,12 @@ app.use((_req: Request, res: Response, next: any) => {
 	next();
 });
 
-const privateSites = [routerSession,
+const privateSites = [
 	routerWebhooks,
+	routerSession,
 	routerRepos,
+	routerCommits,
+	routerIssues,
 	routerUserData,
 	routerReposContributions,
 	routerOrganizations,
