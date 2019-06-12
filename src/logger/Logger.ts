@@ -2,18 +2,18 @@ import winston from 'winston';
 
 export const errorLogger = (message: string, trace: Error | undefined = undefined) => {
 	logger.log({
-		date: Date.now().toString(),
+		date: Date.now(),
 		level: 'error',
-		message,
-		trace,
+		message: message,
+		trace: trace,
 	});
 };
 
 export const infoLogger = (message: string) => {
 	logger.log({
-		date: Date.now().toString(),
+		date: Date.now(),
 		level: 'info',
-		message,
+		message: message,
 	});
 };
 

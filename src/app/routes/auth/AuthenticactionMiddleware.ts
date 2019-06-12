@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { errorLogger } from '../../../logger/Logger';
+import { errorLogger, infoLogger } from '../../../logger/Logger';
 import AuthServiceGApiImpl from '../../services/githubApi/impl/AuthServiceGApiImpl';
 
 const router = Router();
@@ -21,14 +21,16 @@ const ERROR_NO_TOKEN = {
 
 router.use((req: Request, res: Response, next: NextFunction) => {
 	const token = req.headers['x-access-token'] as string;
+	const githubToken = req.header('x-github-token') as string;
 	if (token) {
 		AuthServiceGApiImpl.auth(token)
 			.then((result: any) => {
 				const { success, expired } = result.body;
 				if (success && !expired) {
+					infoLogger(`Accessing : ${req.url} with token: ${token}`);
 					next();
 				} else {
-					errorLogger(`trying to access with a wrong token -> ${token}`);
+					errorLogger(`Trying to access with a wrong token -> ${token}`);
 					res.status(401).json(ERROR_TOKEN_NOT_VALID);
 				}
 			}).catch((err: Error) => {
@@ -36,6 +38,7 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 				res.status(401).json(ERROR_IN_SERVER);
 			});
 	} else {
+		infoLogger(`Accessing : ${req.url} with no token`);
 		res.status(401).json(ERROR_NO_TOKEN);
 	}
 });

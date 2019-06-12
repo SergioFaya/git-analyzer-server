@@ -11,8 +11,8 @@ router.get('/chart/gitTree', (req: Request, res: Response): void => {
 	const username = req.header('username') as string;
 	if (token && reponame) {
 		NetworkChartService.getNetworkChartData(token, username, reponame)
-			.then((result) => {
-				res.status(202).json(result)
+			.then((commit) => {
+				res.status(202).json(commit)
 			});
 	} else {
 		errorLogger('cannot get username, token or reponame');

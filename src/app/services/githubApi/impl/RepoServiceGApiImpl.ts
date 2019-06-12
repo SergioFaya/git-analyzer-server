@@ -86,12 +86,12 @@ const getCommitOfRepoPromise = (token: string, reponame: string, commitSha: stri
 };
 
 /**
- * Remote search 
- * @param token 
- * @param page 
- * @param per_page 
- * @param search 
- * @param username 
+ * Remote search
+ * @param token
+ * @param page
+ * @param per_page
+ * @param search
+ * @param username
  * @deprecated
  */
 const getSearchReposPromise = (token: string, page: string, per_page: string, search: string, username: string): Promise<any> => {
@@ -102,7 +102,6 @@ const getSearchReposPromise = (token: string, page: string, per_page: string, se
 };
 
 const getReposPromise = (token: string, page?: number, per_page?: number): Promise<any> => {
-	console.log(token);
 	var query = { page, per_page };
 	return superagent
 		.get('http://api.github.com/user/repos')

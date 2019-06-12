@@ -14,8 +14,7 @@ router.get('/commits', (req: Request, res: Response) => {
 	RepoServiceGApi
 		.getCommitOfRepo(token, reponame, sha)
 		.then((result: any) => {
-			infoLogger(result);
-			res.status(202).json({ result });
+			res.status(202).json(result);
 		}).catch((err: Error) => {
 			errorLogger('Cannot get repo commit', err);
 			res.status(500).json({
