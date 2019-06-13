@@ -8,10 +8,7 @@ import RepoServiceGApi from '../RepoServiceGApi';
 const repoServiceGApi: RepoServiceGApi = {
 	getAllRepos: (token: string): Promise<Array<IRepo>> => {
 		return getReposPromise(token)
-			.catch((err) => {
-				errorLogger(`Cannot get repos from user with token ${token}`, err);
-				return Error;
-			}).then((result: any) => {
+			.then((result: any) => {
 				return createRepoArray(result.body);
 			}).then((repos) => {
 				repos.forEach((repo: IRepo) => {
@@ -22,10 +19,7 @@ const repoServiceGApi: RepoServiceGApi = {
 	},
 	getRepoByName: (token: string, reponame: string): Promise<IRepo> => {
 		return getRepoByNamePromise(token, reponame)
-			.catch((err: Error) => {
-				errorLogger('Cannot get access to the repository', err)
-				return null;
-			}).then((result: any) => {
+			.then((result: any) => {
 				const repo = createRepo(result.body) as Repo;
 				SyncRepoService.sync(repo);
 				return repo;
@@ -33,10 +27,6 @@ const repoServiceGApi: RepoServiceGApi = {
 	},
 	getReposPaged: (token: string, page, per_page): Promise<Array<IRepo>> => {
 		return getReposPromise(token, page, per_page)
-			.catch((err) => {
-				errorLogger(`Cannot get data from user with token ${token}`, err);
-				return Error;
-			})
 			.then((result: any) => {
 				return createRepoArray(result.body)
 			}).then((repos) => {
@@ -61,9 +51,6 @@ const repoServiceGApi: RepoServiceGApi = {
 						repoArray = createRepoArray(repos);
 					})
 				return repoArray;
-			}).catch(err => {
-				errorLogger("Cannot get all repos for search", err)
-				return [];
 			});
 	},
 	getCommitOfRepo: (token: string, reponame: string, commitSha: string) => {

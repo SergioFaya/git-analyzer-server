@@ -1,8 +1,9 @@
+import { ICodeReview } from 'git-analyzer-types';
 import { CodeReview } from '../../schemas/CodeReviewSchema';
 
 export default interface CodeReviewService {
 
-	getAllCodeReviews(): any;
+	getAllCodeReviewsForUser(username: string): Promise<Array<ICodeReview>>;
 
 	createNewCodeReview(CodeReview: CodeReview): void;
 

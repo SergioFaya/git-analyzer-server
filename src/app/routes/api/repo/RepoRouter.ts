@@ -16,6 +16,12 @@ router.get('/repos', (req: Request, res: Response): void => {
 		RepoServiceGApiImpl.getReposPaged(token, page, per_page)
 			.then((repos: Array<IRepo>) => {
 				res.status(202).json(repos);
+			}).catch((err: Error) => {
+				errorLogger("Repos paged error", err);
+				res.status(500).json({
+					message: "Repos paged error",
+					success: false,
+				});
 			});
 	} else {
 		errorLogger('cannot get user token', req.body.err);
@@ -33,6 +39,12 @@ router.get('/repos/search', (req: Request, res: Response): void => {
 		RepoServiceGApiImpl.getReposPagedBySearch(token, search, username)
 			.then((repos: Array<IRepo>) => {
 				res.status(202).json(repos);
+			}).catch((err: Error) => {
+				errorLogger("Cannot get repos search", err);
+				res.status(505).json({
+					message: "Cannot get repos search",
+					success: false,
+				});
 			});
 	} else {
 		errorLogger('cannot get user token', req.body.err);
@@ -50,11 +62,11 @@ router.get('/repos/reponame', (req: Request, res: Response): void => {
 		RepoServiceGApiImpl.getRepoByName(token, reponame)
 			.then((repo) => {
 				res.status(202).json(repo);
-			}).catch((err) => {
-				errorLogger('Cannot get access to the repository', err);
-				res.status(404).json({
-					message: 'Cannot get access to the repository',
-					success: false
+			}).catch((err: Error) => {
+				errorLogger("Cannot get single repo", err);
+				res.status(505).json({
+					message: "Cannot get single repo",
+					success: false,
 				});
 			});
 	} else {

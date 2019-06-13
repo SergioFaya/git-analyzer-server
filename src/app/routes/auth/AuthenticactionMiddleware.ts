@@ -38,7 +38,7 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 				res.status(401).json(ERROR_IN_SERVER);
 			});
 	} else {
-		infoLogger(`Accessing : ${req.url} with no token`);
+		errorLogger(`Accessing : ${req.url} with no token`);
 		res.status(401).json(ERROR_NO_TOKEN);
 	}
 });

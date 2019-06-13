@@ -1,19 +1,19 @@
+import { ICodeReview } from 'git-analyzer-types';
 import { errorLogger } from '../../../../logger/Logger';
 import { CodeReview, CodeReviewModel } from '../../../schemas/CodeReviewSchema';
 import CodeReviewService from '../CodeReviewService';
 
 const CodeReviewService: CodeReviewService = {
-	getAllCodeReviews: async () => {
-		var reviews: Array<CodeReview> = [];
-		await CodeReviewModel.find((err, res) => {
-			if (err) {
+	getAllCodeReviewsForUser: (username: string): Promise<Array<ICodeReview>> => {
+		return CodeReviewModel
+			.find({ created_by: username })
+			.then((reviews: Array<CodeReview>) => {
+				return reviews;
+			})
+			.catch((err: Error) => {
 				errorLogger('Cannot get all code reviews', err);
 				throw err;
-			} else {
-				reviews = res;
-			}
-		});
-		return reviews;
+			});
 	},
 	updateCodeReview: (_id: number) => {
 

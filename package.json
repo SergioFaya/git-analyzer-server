@@ -45,7 +45,7 @@
 		"express": "^4.16.4",
 		"express-session": "^1.15.6",
 		"fs": "0.0.1-security",
-		"git-analyzer-types": "^1.1.17",
+		"git-analyzer-types": "^1.1.21",
 		"jsonwebtoken": "^8.4.0",
 		"mongoose": "^5.4.16",
 		"node-openssl-cert": "0.0.47",
