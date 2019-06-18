@@ -1,12 +1,16 @@
-import { IssueWHEvent } from '../../schemas/IssueWHEventSchema';
+import { ICommitWebhook, IissueWebHook, IPullReqWebHook } from 'git-analyzer-types';
 
 export interface WebHooksService {
 
-	saveIssuesEvent(issueWHEvent: IssueWHEvent): void;
+	saveIssueEvent(issueWHEvent: IissueWebHook): void;
 
-	findLatestsIssues(username: string, limit?: number): Promise<Array<IssueWHEvent>>;
+	findLatestsIssues(username: string, limit?: number): Promise<Array<IissueWebHook>>;
 
-	managePullRequestEvent(): void;
+	savePullReqEvent(pullReq: IPullReqWebHook): void;
 
-	managePushEvent(): void;
+	findLatestsPullReqs(username: string, limit?: number): Promise<Array<IPullReqWebHook>>;
+
+	savePushEvent(push: ICommitWebhook): void;
+
+	findLatestsPushEvents(username: string, limit?: number): Promise<Array<ICommitWebhook>>;
 }

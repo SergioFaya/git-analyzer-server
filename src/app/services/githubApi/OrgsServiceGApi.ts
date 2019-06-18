@@ -1,8 +1,10 @@
-import { IOrg } from 'git-analyzer-types';
+import { IOrg, IRepo } from 'git-analyzer-types';
 
-export default interface UserDataService {
-	getOrganizationsUserParticipatesIn(token: string, username: string): Promise<Array<IOrg>>;
-	getOwnedOrganizations(token: string, username: string): Promise<Array<IOrg>>;
+export default interface OrgsServiceGApi {
+	getOwnedOrganizations(token: string): Promise<Array<IOrg>>;
+
+	getReposOfOrgPaged(token: string, orgname: string, page: number, per_page: number): Promise<Array<IRepo>>;
+
 }
 
 

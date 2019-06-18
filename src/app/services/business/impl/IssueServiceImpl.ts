@@ -14,18 +14,10 @@ const IssueService: IssueService = {
 				return res;
 			}
 		});
-
-
-	},
-	updateIssue: (_id: number) => {
-
 	},
 	createNewIssue: (issue: Issue): void => {
 		var cr = new IssueModel(issue);
 		cr.save();
-	},
-	deleteIssue: (_id: number) => {
-
 	},
 };
 

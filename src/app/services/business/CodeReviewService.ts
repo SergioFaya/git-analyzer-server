@@ -9,5 +9,4 @@ export default interface CodeReviewService {
 
 	deleteCodeReview(id: number): void;
 
-	updateCodeReview(id: number): void;
 }

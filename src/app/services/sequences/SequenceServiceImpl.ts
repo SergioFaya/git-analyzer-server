@@ -7,6 +7,8 @@ import SequenceService from './SequenceService';
 const COLLECTION = 'collection_ids';
 const CODE_REVIEW_ID = 'codeReview';
 
+let dbClient: any;
+
 const SequenceService: SequenceService = {
 
 	getCodeReviewId: () => {
@@ -14,40 +16,42 @@ const SequenceService: SequenceService = {
 			collection: CODE_REVIEW_ID
 		};
 
-		MongoClient.connect(config.db.host)
+		return MongoClient.connect(config.db.host)
 			.then(async (client: MongoClient) => {
-				var result;
+				dbClient = client;
 				const db = client.db();
-				await db.collection(COLLECTION)
+				return [db, await db.collection(COLLECTION)
 					.findOne(query)
-					.then((seq: Sequence) => {
+					.then(async (seq: Sequence) => {
 						if (seq !== null) {
 							let id = seq.id;
 							++id!;
-							db.collection(COLLECTION).updateOne({ collection: CODE_REVIEW_ID, id: seq.id },
-								{ $set: { collection: CODE_REVIEW_ID, id: id } } as Sequence);
-							return result = id;
+							return await db.collection(COLLECTION).updateOne({ collection: CODE_REVIEW_ID, id: seq.id },
+								{ $set: { collection: CODE_REVIEW_ID, id: id } } as Sequence)
+								.then(() => {
+									return id;
+								});
+
 						} else {
-							db.collection(COLLECTION).insert({ collection: CODE_REVIEW_ID, id: 0 } as Sequence);
-							return result = 0;
+							return await db.collection(COLLECTION).insert({ collection: CODE_REVIEW_ID, id: 0 } as Sequence).then(() => {
+								return 0;
+							});
 						}
 					})
 					.catch((err: Error) => {
 						errorLogger("Cannot find sequence", err);
-					});
-				return [result, db];
+					})];
 			})
-			.then((tuple: Array<any>) => {
-				const db = tuple[1];
-				const id = tuple[0];
-				db.close();
-				return id;
+			.then((tuple: any) => {
+				dbClient.close();
+				return tuple[1];
+
 			})
 			.catch((err: Error) => {
 				errorLogger("Cannot get next id for collection", err);
 				console.log(err);
 			});
-		return 0;
+
 	},
 };
 

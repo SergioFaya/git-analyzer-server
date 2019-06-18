@@ -20,8 +20,10 @@ const ERROR_NO_TOKEN = {
 };
 
 router.use((req: Request, res: Response, next: NextFunction) => {
-	const token = req.headers['x-access-token'] as string;
-	const githubToken = req.header('x-github-token') as string;
+	var token = req.headers['x-access-token'] as string;
+	if (!token) {
+		token = req.param('x-access-token') as string;
+	}
 	if (token) {
 		AuthServiceGApiImpl.auth(token)
 			.then((result: any) => {

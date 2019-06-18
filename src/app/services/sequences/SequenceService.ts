@@ -1,5 +1,5 @@
 export default interface SequenceService {
 
-	getCodeReviewId(): number;
+	getCodeReviewId(): any;
 
 }

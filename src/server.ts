@@ -5,6 +5,8 @@ import routerCharts from './app/routes/api/charts/ChartRouter';
 import routerCommits from './app/routes/api/commit/CommitRouter';
 import routerOrganizations from './app/routes/api/orgs/OrgsRouter';
 import routerIssues from './app/routes/api/recentActivity/IssuesRouter';
+import routerPullReqs from './app/routes/api/recentActivity/PullReqRouter';
+import routerPushes from './app/routes/api/recentActivity/PushesRouter';
 import routerReposContributions from './app/routes/api/repo/ContributionRouter';
 import routerRepos from './app/routes/api/repo/RepoRouter';
 import routerCodeReview from './app/routes/api/review/CodeReviewRouter';
@@ -34,6 +36,8 @@ const privateSites = [
 	routerRepos,
 	routerCommits,
 	routerIssues,
+	routerPushes,
+	routerPullReqs,
 	routerUserData,
 	routerReposContributions,
 	routerOrganizations,

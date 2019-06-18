@@ -36,7 +36,7 @@ const repoServiceGApi: RepoServiceGApi = {
 				return repos;
 			});
 	},
-	getReposPagedBySearch: async (token: string, search: string, username: string): Promise<Array<IRepo>> => {
+	getReposBySearch: async (token: string, search: string, username: string): Promise<Array<IRepo>> => {
 		// el getall hace el sync de cada repo
 		return await repoServiceGApi.getAllRepos(token)
 			.then(async () => {

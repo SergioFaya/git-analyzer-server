@@ -6,12 +6,10 @@ import RepoServiceGApiImpl from '../../../services/githubApi/impl/RepoServiceGAp
 
 const router = Router();
 
-// hacer get repo paginado
 router.get('/repos', (req: Request, res: Response): void => {
 	const token = req.header('x-github-token');
 	const page = req.query.page;
 	const per_page = req.query.per_page;
-	console.log(req.query);
 	if (token) {
 		RepoServiceGApiImpl.getReposPaged(token, page, per_page)
 			.then((repos: Array<IRepo>) => {
@@ -36,7 +34,7 @@ router.get('/repos/search', (req: Request, res: Response): void => {
 	const token = req.header('x-github-token');
 	const { search, username } = req.query;
 	if (token && username && search) {
-		RepoServiceGApiImpl.getReposPagedBySearch(token, search, username)
+		RepoServiceGApiImpl.getReposBySearch(token, search, username)
 			.then((repos: Array<IRepo>) => {
 				res.status(202).json(repos);
 			}).catch((err: Error) => {

@@ -1,33 +1,35 @@
-import { IOrg } from 'git-analyzer-types';
+import { IOrg, IRepo } from 'git-analyzer-types';
 import superagent from 'superagent';
 import OrgsServiceGApi from '../OrgsServiceGApi';
 
 
 const orgService: OrgsServiceGApi = {
-	getOrganizationsUserParticipatesIn: (token: string): Promise<Array<IOrg>> => {
-		return getOrganizationsUserParticipatesInPromise(token)
+	getOwnedOrganizations: (token: string): Promise<Array<IOrg>> => {
+		return getOrganizationsPromise(token)
 			.then((result) => {
-				return result;
+				return result.body;
 			});
 	},
-	getOwnedOrganizations: (token: string, username: string): Promise<Array<IOrg>> => {
-		return getOwnedOrganizationsPromise(token, username)
+	getReposOfOrgPaged: (token: string, orgname: string, page: number, per_page: number): Promise<Array<IRepo>> => {
+		return getReposOfOrgPromise(token, orgname, page, per_page)
 			.then((result) => {
-				return result;
+				return result.body;
 			});
 	},
 };
 
-const getOrganizationsUserParticipatesInPromise = (token: string): Promise<any> => {
+const getOrganizationsPromise = (token: string): Promise<any> => {
 	return superagent.get(`https://api.github.com/user/orgs`)
 		.set('Accept', 'application/json')
-		.set('x-access-token', token);
+		.set('Authorization', `token ${token}`);
 }
 
-const getOwnedOrganizationsPromise = (token: string, username: string): Promise<any> => {
-	return superagent.get(`https://api.github.com/users/${username}/orgs`)
+const getReposOfOrgPromise = (token: string, orgname: string, page: number, per_page: number): Promise<any> => {
+	var query = { page, per_page };
+	return superagent.get(`https://api.github.com/orgs/${orgname}/repos`)
 		.set('Accept', 'application/json')
-		.set('x-access-token', token);
+		.set('Authorization', `token ${token}`)
+		.query(query);
 }
 
 export default orgService;

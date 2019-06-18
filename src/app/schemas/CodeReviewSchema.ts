@@ -8,7 +8,7 @@ export class CodeReview extends Typegoose implements ICodeReview {
 	@prop({ required: true })
 	public title?: string;
 	@prop({ required: true })
-	public created_at?: Date;
+	public created_at?: number;
 	@prop({ required: true })
 	public created_by?: IUserData;
 	@prop({ required: true })
@@ -16,7 +16,7 @@ export class CodeReview extends Typegoose implements ICodeReview {
 	@prop({ required: true })
 	public calification?: number;
 
-	constructor(title?: string, created_at?: Date, created_by?: IUserData, commentary?: string, calification?: number) {
+	constructor(title?: string, created_at?: number, created_by?: IUserData, commentary?: string, calification?: number) {
 		super();
 		this.title = title;
 		this.created_at = created_at;
