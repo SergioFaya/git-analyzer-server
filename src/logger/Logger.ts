@@ -38,6 +38,7 @@ export const logger = winston.createLogger({
 	// TODO: definir logpath en la config
 	transports: [
 		new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+		new winston.transports.File({ filename: 'logs/info.log', level: 'info' }),
 		new winston.transports.Console({
 			format: winston.format.combine(
 				winston.format.simple(),
@@ -45,6 +46,5 @@ export const logger = winston.createLogger({
 			),
 			level: 'info',
 		}),
-		new winston.transports.File({ filename: 'logs/info.log', level: 'info' }),
 	],
 });

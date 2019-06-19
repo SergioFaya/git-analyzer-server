@@ -1,3 +1,4 @@
+import { infoLogger } from './../../../../logger/Logger';
 import { Request, Response, Router } from 'express';
 import { ICodeReview } from 'git-analyzer-types';
 import { CodeReview } from '../../../schemas/CodeReviewSchema';
@@ -24,6 +25,8 @@ router.get('/codeReview/list', (req: Request, res: Response): void => {
 router.post('/codeReview/create', (req: Request, res: Response): void => {
 	const reviewStr = req.param('review');
 	const review = JSON.parse(reviewStr) as CodeReview;
+	// FIXME: llega sin parsear el repo de la review o no se inserta
+	infoLogger(review.repository!.toString());
 	CodeReviewService.createNewCodeReview(review);
 	res.status(202).json({
 		message: 'Inserted',
