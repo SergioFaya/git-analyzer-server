@@ -5,8 +5,9 @@ export default interface CodeReviewService {
 
 	getAllCodeReviewsForUser(username: string): Promise<Array<ICodeReview>>;
 
-	createNewCodeReview(CodeReview: CodeReview): void;
+	createNewCodeReview(CodeReview: CodeReview): Promise<any>;
 
-	deleteCodeReview(id: number): void;
+	deleteCodeReview(id: number): Promise<any>;
 
+	getCodeReviewsForUserBySearch(username: string, search: string): Promise<Array<ICodeReview>>;
 }

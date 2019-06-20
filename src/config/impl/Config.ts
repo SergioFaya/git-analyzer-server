@@ -12,7 +12,7 @@ const local: Config = {
 		port: argPort || 3001,
 		source: '0.0.0.0',
 		tokenSecret: 'WjKJHMvaLkEnfsN3JHFY',
-		repositoryFilesPath: './resources/',
+		repositoryFilesPath: '../resources/',
 		chartsConfig: {
 			logOptions: ['--all', '--date-order', '--pretty=%H|%P|%d|%an']
 		}

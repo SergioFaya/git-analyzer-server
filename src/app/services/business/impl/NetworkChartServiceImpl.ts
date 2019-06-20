@@ -8,8 +8,6 @@ import { config } from '../../../../config/impl/Config';
 import { errorLogger } from '../../../../logger/Logger';
 import NetworkChartService from '../NetworkChartService';
 
-
-
 const networkChartService: NetworkChartService = {
 	getNetworkChartData: (token: string, username: string, reponame: string): any => {
 		const URL = `github.com/${reponame}`;
@@ -61,43 +59,46 @@ async function callFormatLogsAsync(reponame: string, options: string[]) {
 // https://developer.github.com/v3/repos/statistics/#get-the-number-of-additions-and-deletions-per-week
 
 var commitsList = Array<any>();
-var e = 15;
-var d = 0;
+var xPos = 15;
+var columnMax = 0;
 var s = Object.create(null);
 var a = 9;
 
-// TODO: limpiar código
-async function inspectNode(n: any) {
-	var i = n;
-	var h = commitsList;
-	if (!n.isPlumbed) {
-		var u = void 0;
-		if (n.parents && n.parents.length > 0) {
-			for (var r = 0; r < n.parents.length; r++) {
-				var l = s[n.parents[r]];
-				if (l && !l.isPlumbed) {
-					0 == r ? u = await inspectNode(l) : await inspectNode(l);
-					var m = l.col - n.col;
-					var v = l.row - n.row;
-					if (0 === m && (m = r), m >= 0) {
-						var b = n.col + m;
+/**
+ * Inspects all nodes and stablishes their relation in a graph shape
+ * @param node 
+ */
+async function inspectNode(node: any) {
+	var iterator = node;
+	var listMemo = commitsList;
+	if (!node.isPlumbed) {
+		var plumbed = void 0;
+		if (node.parents && node.parents.length > 0) {
+			for (var i = 0; i < node.parents.length; i++) {
+				var parent = s[node.parents[i]];
+				if (parent && !parent.isPlumbed) {
+					0 == i ? plumbed = await inspectNode(parent) : await inspectNode(parent);
+					var m = parent.col - node.col;
+					var v = parent.row - node.row;
+					if (0 === m && (m = i), m >= 0) {
+						var b = node.col + m;
 					}
 					else {
-						b = n.col;
+						b = node.col;
 					}
-					for (var f = 1; v > f; f++) {
-						var c = h[n.row + f];
-						c && !c.isPlumbed && (c.col = b + 1, c.x = a + e * c.col, d = Math.max(c.col, d))
+					for (var j = 1; v > j; j++) {
+						var subnode = listMemo[node.row + j];
+						subnode && !subnode.isPlumbed && (subnode.col = b + 1, subnode.x = a + xPos * subnode.col, columnMax = Math.max(subnode.col, columnMax))
 					}
 				} else {
-					0 == r && (u = i)
+					0 == i && (plumbed = iterator)
 				}
 			}
 		} else {
-			u = i
+			plumbed = iterator
 		};
 	}
-	return n.isPlumbed = !0, u
+	return node.isPlumbed = !0, plumbed
 }
 
 async function filterTagsAndBranches(info: any) {
@@ -107,7 +108,7 @@ async function filterTagsAndBranches(info: any) {
 		})
 	}
 	info = info.trim();
-	// las ramas van entre parentesis
+	// branches are between parenthesis
 	if ("(" === info.charAt(0) && ")" === info.charAt(info.length - 1)) {
 		info = info.substr(0, info.length - 1);
 	}
@@ -126,7 +127,6 @@ async function filterTagsAndBranches(info: any) {
 	return [sortResult(tags), sortResult(branches)]
 }
 
-// TODO: meter await a cada puto for
 async function formatLogs(data: any) {
 	// declara un array vacío en el que se van metiendo los commits listos para representar
 	var formatedCommits = commitsList;
@@ -165,7 +165,7 @@ async function formatLogs(data: any) {
 			object.committer = line[3];
 		}
 	}
-	// actualiza las columnas de los elementos a pintar
+	// updates the columns with the elements to be painted
 	for (let commit = formatedCommits[0], i = 0; i < (commit ? commit.row : formatedCommits.length); i++) {
 		object = formatedCommits[i];
 		object.col++;

@@ -21,7 +21,6 @@ var path = require('path');
 const globalAny: any = global;
 globalAny.appRoot = path.resolve(__dirname);
 
-// TODO: considerar cambiar por el módulo cors
 app.use((_req: Request, res: Response, next: any) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Credentials', 'true');

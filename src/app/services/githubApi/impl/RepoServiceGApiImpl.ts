@@ -37,7 +37,7 @@ const repoServiceGApi: RepoServiceGApi = {
 			});
 	},
 	getReposBySearch: async (token: string, search: string, username: string): Promise<Array<IRepo>> => {
-		// el getall hace el sync de cada repo
+		// the getall syncs every repo
 		return await repoServiceGApi.getAllRepos(token)
 			.then(async () => {
 				const likeSearch = { $regex: ".*" + search + ".*" };
@@ -72,24 +72,10 @@ const getCommitOfRepoPromise = (token: string, reponame: string, commitSha: stri
 		.set('Authorization', `token ${token}`);
 };
 
-/**
- * Remote search
- * @param token
- * @param page
- * @param per_page
- * @param search
- * @param username
- * @deprecated
- */
-const getSearchReposPromise = (token: string, page: string, per_page: string, search: string, username: string): Promise<any> => {
-	const searchQuery = `?q=in:name+${search}+user:${username}&page=${page}&per_page=${per_page}`;
-	return superagent
-		.get(`https://api.github.com/search/repositories${searchQuery}`)
-		.set('Authorization', `token ${token}`);
-};
-
 const getReposPromise = (token: string, page?: number, per_page?: number): Promise<any> => {
-	var query = { page, per_page };
+	var realPage = page || 0;
+	var realPerPage = per_page || 100;
+	var query = { page: realPage, per_page: realPerPage };
 	return superagent
 		.get('http://api.github.com/user/repos')
 		.query(query)

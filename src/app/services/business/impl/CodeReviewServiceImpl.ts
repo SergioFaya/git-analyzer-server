@@ -16,8 +16,8 @@ const CodeReviewService: CodeReviewService = {
 				throw err;
 			});
 	},
-	createNewCodeReview: (codeReview: CodeReview): void => {
-		SequenceService.getCodeReviewId()
+	createNewCodeReview: (codeReview: CodeReview) => {
+		return SequenceService.getCodeReviewId()
 			.then((id: number) => {
 				codeReview.id = id;
 				codeReview.created_at = Date.now();
@@ -30,12 +30,26 @@ const CodeReviewService: CodeReviewService = {
 			})
 	},
 	deleteCodeReview: (id: number) => {
-		CodeReviewModel.findOneAndDelete({ id: id })
+		return CodeReviewModel.findOneAndDelete({ id: id })
 			.then(() => {
 				infoLogger('Deleted review');
 			})
 			.catch(() => {
 				errorLogger('Cannot delete review with id ' + id);
+			});
+	},
+	getCodeReviewsForUserBySearch: (username: string, search: string) => {
+		const likeSearch = { $regex: ".*" + search + ".*" };
+		const query = {
+			title: likeSearch,
+			"created_by.login": username
+		};
+		return CodeReviewModel
+			.find(query)
+			.then<Array<ICodeReview>>((codeReviews: Array<ICodeReview>) => {
+				return codeReviews;
+			}).catch(() => {
+				return [];
 			});
 	},
 };
