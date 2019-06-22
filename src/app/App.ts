@@ -14,8 +14,6 @@ class App {
 		this.app = express();
 		this.config();
 		this.dbSetUp();
-		// no se necesita session, pasamos a tokens
-		// this.sessionSetUp();
 	}
 
 	private config(): void {
