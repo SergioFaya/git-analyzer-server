@@ -12,7 +12,7 @@ const local: Config = {
 		port: argPort || 3001,
 		source: '0.0.0.0',
 		tokenSecret: 'WjKJHMvaLkEnfsN3JHFY',
-		repositoryFilesPath: '../resources/',
+		repositoryFilesPath: '../cloned-repositories/',
 		chartsConfig: {
 			logOptions: ['--all', '--date-order', '--pretty=%H|%P|%d|%an']
 		}
@@ -39,10 +39,6 @@ const local: Config = {
 	redis: {
 		port: 6379,
 	},
-	res: {
-		private_key: '../../res/privateKey.pem',
-		public_key: '../../res/publicKey.pem',
-	},
 	services: {
 		auth: {
 			baseUrl: 'localhost:3000',
@@ -55,7 +51,7 @@ const deploy: Config = {
 		port: argPort || 3001,
 		source: '0.0.0.0',
 		tokenSecret: 'WjKJHMvaLkEnfsN3JHFY',
-		repositoryFilesPath: './resources/',
+		repositoryFilesPath: './cloned-repositories/',
 		chartsConfig: {
 			logOptions: ['--all', '--date-order', '--pretty=%H|%P|%d|%an']
 		}
@@ -81,10 +77,6 @@ const deploy: Config = {
 	},
 	redis: {
 		port: 6379,
-	},
-	res: {
-		private_key: '../../res/privateKey.pem',
-		public_key: '../../res/publicKey.pem',
 	},
 	services: {
 		auth: {

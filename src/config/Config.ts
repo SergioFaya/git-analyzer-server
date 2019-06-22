@@ -3,7 +3,6 @@ export interface Config {
 	db: DbConfig;
 	oauth: OauthConfig;
 	redis: RedisConfig;
-	res: ResConfig;
 	services: ServicesConfig;
 }
 
@@ -11,10 +10,6 @@ interface RedisConfig {
 	port: number;
 }
 
-interface ResConfig {
-	public_key: string;
-	private_key: string;
-}
 
 interface ChartsConfig {
 	logOptions: string[];
