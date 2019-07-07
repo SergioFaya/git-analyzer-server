@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { errorLogger, infoLogger } from '../../../logger/Logger';
-import AuthServiceGApiImpl from '../../services/githubApi/impl/AuthServiceGApiImpl';
+import AuthService from '../../services/business/impl/AuthService';
 
 const router = Router();
 
@@ -25,7 +25,7 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 		token = req.param('x-access-token') as string;
 	}
 	if (token) {
-		AuthServiceGApiImpl.auth(token)
+		AuthService.auth(token)
 			.then((result: any) => {
 				const { success, expired } = result.body;
 				if (success && !expired) {

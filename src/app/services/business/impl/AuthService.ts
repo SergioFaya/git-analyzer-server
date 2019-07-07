@@ -1,6 +1,6 @@
 import superagent from 'superagent';
 import { config } from '../../../../config/impl/Config';
-import AuthService from '../AuthServiceGApi';
+import AuthService from '../AuthService';
 
 const CHECK_LOGIN_URL = '/login/check';
 const authService: AuthService = {

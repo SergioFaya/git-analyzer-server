@@ -18,7 +18,8 @@ export class UserData extends Typegoose implements IUserData {
 	@prop({ required: true })
 	public name?: string;
 
-	constructor(id?: number, username?: string, login?: string, email?: string, imageUrl?: string, type?: UserType, name?: string) {
+	constructor(id?: number, username?: string, login?: string, email?: string,
+		imageUrl?: string, type?: UserType, name?: string) {
 		super();
 		this.id = id;
 		this.username = username;

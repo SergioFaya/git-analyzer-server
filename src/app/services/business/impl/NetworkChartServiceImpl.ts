@@ -61,7 +61,7 @@ async function callFormatLogsAsync(reponame: string, options: string[]) {
 var commitsList = Array<any>();
 var xPos = 15;
 var columnMax = 0;
-var s = Object.create(null);
+var parsedNodes = Object.create(null);
 var a = 9;
 
 /**
@@ -75,7 +75,7 @@ async function inspectNode(node: any) {
 		var plumbed = void 0;
 		if (node.parents && node.parents.length > 0) {
 			for (var i = 0; i < node.parents.length; i++) {
-				var parent = s[node.parents[i]];
+				var parent = parsedNodes[node.parents[i]];
 				if (parent && !parent.isPlumbed) {
 					0 == i ? plumbed = await inspectNode(parent) : await inspectNode(parent);
 					var m = parent.col - node.col;
@@ -130,7 +130,7 @@ async function filterTagsAndBranches(info: any) {
 async function formatLogs(data: any) {
 	// declara un array vacío en el que se van metiendo los commits listos para representar
 	var formatedCommits = commitsList;
-	//pilla un commit por fila y los pone en un array
+	// un commit por fila y los pone en un array
 	var logLines = data.trim().split("\n");
 	// pinta en el letrero los sha de los comits solamente
 	for (var i = 0; i < logLines.length; i++) {
@@ -151,15 +151,15 @@ async function formatLogs(data: any) {
 				branches: undefined
 			};
 			formatedCommits.push(object);
-			s[object.sha1] = object;
+			parsedNodes[object.sha1] = object;
 			// información adicional
 			if (parents) {
 				object.parents = line[1].split(" ");
 				var extraInfo = line[2];
 				if (extraInfo && "" !== extraInfo.trim()) {
-					var g = await filterTagsAndBranches(extraInfo.trim());
-					object.tags = g[0];
-					object.branches = g[1];
+					var filteredTagsAndBranches = await filterTagsAndBranches(extraInfo.trim());
+					object.tags = filteredTagsAndBranches[0];
+					object.branches = filteredTagsAndBranches[1];
 				}
 			}
 			object.committer = line[3];
