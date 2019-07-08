@@ -18,9 +18,15 @@ import { logger } from './logger/Logger';
 
 var path = require('path');
 
+/**
+ * Global variable of any type
+ */
 const globalAny: any = global;
 globalAny.appRoot = path.resolve(__dirname);
 
+/**
+ * Cors configuration
+ */
 app.use((_req: Request, res: Response, next: any) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Credentials', 'true');
@@ -29,7 +35,10 @@ app.use((_req: Request, res: Response, next: any) => {
 	next();
 });
 
-const privateSites = [
+/**
+ * List of used routers
+ */
+const sites = [
 	routerWebhooks,
 	routerSession,
 	routerRepos,
@@ -44,10 +53,13 @@ const privateSites = [
 	routerCodeReview
 ];
 
-privateSites.filter((router: Router) => {
+sites.filter((router: Router) => {
 	app.use('/', router);
 });
 
+/**
+ * Lauches the application
+ */
 app.listen(config.app.port, config.app.source, () => {
 	// tslint:disable-next-line:no-console
 	console.log('Express server listening on port ' + config.app.port);
@@ -56,6 +68,5 @@ app.listen(config.app.port, config.app.source, () => {
 		level: 'info',
 		message: 'Server started',
 	});
-
 
 });

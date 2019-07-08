@@ -1,6 +1,6 @@
 import { errorLogger } from '../../../../logger/Logger';
 import { Repo, RepoModel } from '../../../schemas/RepoSchema';
-import ISyncService from '../ISyncService';
+import ISyncService from '../SyncService';
 
 const SyncRepoService: ISyncService<Repo> = {
 	sync: (repo: Repo): void => {

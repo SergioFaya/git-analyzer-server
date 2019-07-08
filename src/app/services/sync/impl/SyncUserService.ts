@@ -1,6 +1,6 @@
 import { errorLogger } from '../../../../logger/Logger';
 import { UserData, UserDataModel } from '../../../schemas/UserDataSchema';
-import ISyncService from '../ISyncService';
+import ISyncService from '../SyncService';
 
 const SyncUserDataService: ISyncService<UserData> = {
 	sync: (user: UserData): void => {

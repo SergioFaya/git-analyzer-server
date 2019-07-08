@@ -12,6 +12,7 @@ router.get('/user/info', (req: Request, res: Response): void => {
 
 	const p1 = UserDataService.getUserPrimaryEmailByToken(token);
 	const p2 = UserDataService.getUserDataByToken(token);
+
 	Promise.all([p1, p2])
 		.then((result: [string, IUserData]) => {
 			const email = result[0];

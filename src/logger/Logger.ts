@@ -1,5 +1,10 @@
 import winston from 'winston';
 
+/**
+ * Logs the message and trace in the error logs file
+ * @param message 
+ * @param trace 
+ */
 export const errorLogger = (message: string, trace: Error | undefined = undefined) => {
 	logger.log({
 		date: Date.now(),
@@ -9,6 +14,10 @@ export const errorLogger = (message: string, trace: Error | undefined = undefine
 	});
 };
 
+/**
+ * Logs the message in the info logs file
+ * @param message 
+ */
 export const infoLogger = (message: string) => {
 	logger.log({
 		date: Date.now(),
@@ -17,6 +26,9 @@ export const infoLogger = (message: string) => {
 	});
 };
 
+/**
+ * Models a log into a file
+ */
 export interface Log {
 	date: string;
 	level: LogLevel;
@@ -24,11 +36,17 @@ export interface Log {
 	trace?: Error;
 }
 
+/**
+ * Defines the log levels 
+ */
 export enum LogLevel {
 	error = 'error',
 	info = 'info',
 }
 
+/**
+ * Winston logger instance
+ */
 export const logger = winston.createLogger({
 	format: winston.format.combine(
 		winston.format.json(),

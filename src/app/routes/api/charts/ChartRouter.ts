@@ -4,7 +4,6 @@ import NetworkChartService from '../../../services/business/impl/NetworkChartSer
 
 const router = Router();
 
-// hacer get repo paginado
 router.get('/chart/gitTree', (req: Request, res: Response): void => {
 	const token = req.header('x-github-token') as string;
 	const reponame = req.header('reponame') as string;

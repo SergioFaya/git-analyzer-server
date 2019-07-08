@@ -1,7 +1,7 @@
 import { ICodeReview } from 'git-analyzer-types';
 import { errorLogger, infoLogger } from '../../../../logger/Logger';
 import { CodeReview, CodeReviewModel } from '../../../schemas/CodeReviewSchema';
-import SequenceService from '../../sequences/SequenceServiceImpl';
+import SequenceService from '../../sequences/impl/SequenceServiceImpl';
 import CodeReviewService from '../CodeReviewService';
 
 const CodeReviewService: CodeReviewService = {

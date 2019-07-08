@@ -1,5 +1,7 @@
-
-export default interface ISyncService<T> {
+/**
+ * Defines a syncronization service
+ */
+export default interface SyncService<T> {
 
 	/**
 	 * Performs the sync operation of a given schema

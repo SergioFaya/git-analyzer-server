@@ -1,8 +1,8 @@
 import { Sequence } from 'git-analyzer-types';
 import { MongoClient } from 'mongodb';
-import { config } from '../../../config/impl/Config';
-import { errorLogger } from '../../../logger/Logger';
-import SequenceService from './SequenceService';
+import { config } from '../../../../config/impl/Config';
+import { errorLogger } from '../../../../logger/Logger';
+import SequenceService from '../SequenceService';
 
 const COLLECTION = 'collection_ids';
 const CODE_REVIEW_ID = 'codeReview';
