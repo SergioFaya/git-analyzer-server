@@ -90,4 +90,4 @@ const preConfig: any = {
 	local,
 };
 
-export const config: Config = preConfig[deployType];
+export const config: Config = preConfig[deployType] || local;
