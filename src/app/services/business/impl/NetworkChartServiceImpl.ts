@@ -127,7 +127,7 @@ async function filterTagsAndBranches(info: any) {
 	return [sortResult(tags), sortResult(branches)]
 }
 
-async function formatLogs(data: any) {
+export async function formatLogs(data: any) {
 	// declara un array vacío en el que se van metiendo los commits listos para representar
 	var formatedCommits = commitsList;
 	// un commit por fila y los pone en un array
