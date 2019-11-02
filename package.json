@@ -46,7 +46,7 @@
 		"fs": "0.0.1-security",
 		"git-analyzer-types": "^1.2.6",
 		"jsonwebtoken": "^8.4.0",
-		"mongoose": "^5.4.16",
+		"mongoose": "^5.7.5",
 		"node-openssl-cert": "0.0.47",
 		"node-rsa": "^1.0.1",
 		"pem": "^1.14.1",
