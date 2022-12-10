@@ -41,7 +41,7 @@
 		"cors": "^2.8.5",
 		"curl-request": "^1.1.1",
 		"dom": "0.0.3",
-		"express": "^4.16.4",
+		"express": "^4.17.3",
 		"express-session": "^1.15.6",
 		"fs": "0.0.1-security",
 		"git-analyzer-types": "^1.2.6",
